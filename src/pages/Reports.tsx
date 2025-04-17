@@ -12,10 +12,29 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { toast } from "sonner";
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+} from "recharts";
 
 export function Reports() {
   const [date, setDate] = useState<Date | undefined>(new Date());
   const [category, setCategory] = useState<string>("all");
+
+  // Demo data for the preview
+  const previewData = [
+    { name: "Jan", amount: 4000 },
+    { name: "Feb", amount: 3000 },
+    { name: "Mar", amount: 2000 },
+    { name: "Apr", amount: 2780 },
+    { name: "May", amount: 1890 },
+    { name: "Jun", amount: 2390 },
+  ];
 
   const handleExport = (format: 'excel' | 'csv') => {
     toast.success(`Preparing ${format.toUpperCase()} export`);
@@ -74,9 +93,23 @@ export function Reports() {
             <CardTitle>Report Preview</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-center p-8 text-muted-foreground">
-              Select filters to generate report preview
-            </div>
+            {date ? (
+              <div className="h-[300px] w-full">
+                <ResponsiveContainer width="100%" height="100%">
+                  <BarChart data={previewData}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="name" />
+                    <YAxis />
+                    <Tooltip />
+                    <Bar dataKey="amount" fill="#8884d8" />
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
+            ) : (
+              <div className="text-center p-8 text-muted-foreground">
+                Select filters to generate report preview
+              </div>
+            )}
           </CardContent>
         </Card>
       </div>
