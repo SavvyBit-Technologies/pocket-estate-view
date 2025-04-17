@@ -1,4 +1,3 @@
-
 import {
   Table,
   TableBody,
@@ -13,6 +12,7 @@ import { Input } from "@/components/ui/input";
 import { MessageCircle, Search, UserPlus, Phone, Mail, Home } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
+import { useNavigate } from "react-router-dom";
 
 const tenants = [
   { 
@@ -48,6 +48,8 @@ const tenants = [
 ];
 
 export function TenantList() {
+  const navigate = useNavigate();
+  
   return (
     <div className="p-6 space-y-6 md:ml-64">
       <div className="flex flex-col md:flex-row gap-4 items-start md:items-center justify-between">
@@ -57,7 +59,7 @@ export function TenantList() {
             <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
             <Input placeholder="Search tenants..." className="pl-8" />
           </div>
-          <Button>
+          <Button onClick={() => navigate("/add-tenant")}>
             <UserPlus className="mr-2 h-4 w-4" />
             Add Tenant
           </Button>

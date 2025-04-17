@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -12,6 +11,9 @@ import NotFound from "./pages/NotFound";
 import { IncomeForm } from "./components/forms/IncomeForm";
 import { ExpenseForm } from "./components/forms/ExpenseForm";
 import { TenantList } from "./components/tenants/TenantList";
+import { LoginForm } from "./components/auth/LoginForm";
+import { RegisterForm } from "./components/auth/RegisterForm";
+import { TenantForm } from "./components/forms/TenantForm";
 
 const queryClient = new QueryClient();
 
@@ -24,10 +26,13 @@ const App = () => (
         <div className="min-h-screen bg-gray-50">
           <Sidebar />
           <Routes>
+            <Route path="/login" element={<LoginForm />} />
+            <Route path="/register" element={<RegisterForm />} />
             <Route path="/" element={<Index />} />
             <Route path="/income" element={<IncomeForm />} />
             <Route path="/expenses" element={<ExpenseForm />} />
             <Route path="/tenants" element={<TenantList />} />
+            <Route path="/add-tenant" element={<TenantForm />} />
             <Route path="/reports" element={<Reports />} />
             <Route path="/settings" element={<Settings />} />
             <Route path="*" element={<NotFound />} />
