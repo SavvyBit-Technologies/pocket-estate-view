@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -148,3 +149,20 @@ html {
 .ease-in-out {
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
+
+/* Ensure floating portfolio elements appear above images */
+.floating-portfolio, 
+.floating-element, 
+.portfolio-item, 
+.feature-card {
+  position: relative;
+  z-index: 10;
+}
+
+/* Images should be below interactive elements */
+.hero-image, 
+.background-image, 
+.section-image {
+  z-index: 1;
+}
+
