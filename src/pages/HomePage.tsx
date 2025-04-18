@@ -1,4 +1,3 @@
-
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
@@ -10,62 +9,82 @@ export function HomePage() {
     <div className="min-h-screen bg-white">
       <Navbar />
       
-      {/* Hero section */}
-      <section className="pt-28 md:pt-36 pb-16 md:pb-24 container mx-auto px-4">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          <div className="space-y-6">
-            <div>
-              <span className="inline-flex items-center rounded-full bg-green-50 px-3 py-1 text-sm font-medium text-green-700 ring-1 ring-inset ring-green-600/20">
-                New Features
-              </span>
+      {/* Hero section with gradient background and floating elements */}
+      <section className="relative pt-28 md:pt-36 pb-16 md:pb-24 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-green-50 to-blue-50" />
+        <div className="absolute -top-24 right-0 w-96 h-96 bg-purple-200 rounded-full filter blur-3xl opacity-30 animate-blob" />
+        <div className="absolute -bottom-48 left-0 w-96 h-96 bg-blue-200 rounded-full filter blur-3xl opacity-30 animate-blob animation-delay-2000" />
+        <div className="absolute top-1/2 left-1/2 w-96 h-96 bg-green-200 rounded-full filter blur-3xl opacity-30 animate-blob animation-delay-4000" />
+        
+        <div className="container mx-auto px-4 relative">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div className="space-y-8">
+              <div>
+                <span className="inline-flex items-center rounded-full bg-green-50 px-3 py-1 text-sm font-medium text-green-700 ring-1 ring-inset ring-green-600/20">
+                  Smart Property Management
+                </span>
+              </div>
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text text-transparent">
+                Real Estate Financial Management Simplified
+              </h1>
+              <p className="text-xl text-gray-600 max-w-2xl">
+                Streamline your property portfolio with our AI-powered platform. Manage finances, tenants, and reports all in one place.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4">
+                <Link to="/register">
+                  <Button size="lg" className="w-full sm:w-auto bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 shadow-lg hover:shadow-xl transition-all duration-300">
+                    Start Free Trial <ChevronRight className="ml-1 h-4 w-4" />
+                  </Button>
+                </Link>
+                <Link to="/dashboard">
+                  <Button size="lg" variant="outline" className="w-full sm:w-auto border-2 hover:bg-gray-50">
+                    View Demo
+                  </Button>
+                </Link>
+              </div>
             </div>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-gray-900">
-              Real Estate Financial Management Simplified
-            </h1>
-            <p className="text-xl text-gray-600 max-w-2xl">
-              Streamline your property finances with our comprehensive accounting solution. Manage income, expenses, and tenants in one place.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4">
-              <Link to="/register">
-                <Button size="lg" className="w-full sm:w-auto">
-                  Get Started <ChevronRight className="ml-1 h-4 w-4" />
-                </Button>
-              </Link>
-              <Link to="/dashboard">
-                <Button size="lg" variant="outline" className="w-full sm:w-auto">
-                  View Demo
-                </Button>
-              </Link>
-            </div>
-          </div>
-          <div className="hidden lg:block">
-            <div className="relative">
-              <div className="absolute -top-6 -left-6 w-72 h-72 bg-green-200 rounded-full filter blur-3xl opacity-30 animate-blob"></div>
-              <div className="absolute -bottom-10 -right-10 w-72 h-72 bg-blue-200 rounded-full filter blur-3xl opacity-30 animate-blob animation-delay-2000"></div>
-              <img 
-                src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab" 
-                alt="Modern building" 
-                className="rounded-2xl shadow-2xl w-full object-cover z-10 relative h-[500px]"
-              />
+            <div className="hidden lg:block relative">
+              <div className="relative z-10 rounded-2xl overflow-hidden shadow-2xl transform hover:scale-105 transition-transform duration-300">
+                <img 
+                  src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab" 
+                  alt="Modern building" 
+                  className="w-full object-cover h-[500px]"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+              </div>
+              {/* Floating stats cards */}
+              <div className="absolute -bottom-6 -left-6 bg-white rounded-lg shadow-xl p-4 transform hover:-translate-y-1 transition-transform duration-300">
+                <p className="font-semibold text-2xl text-green-600">98%</p>
+                <p className="text-sm text-gray-600">Client Satisfaction</p>
+              </div>
+              <div className="absolute -top-6 -right-6 bg-white rounded-lg shadow-xl p-4 transform hover:-translate-y-1 transition-transform duration-300">
+                <p className="font-semibold text-2xl text-blue-600">50K+</p>
+                <p className="text-sm text-gray-600">Properties Managed</p>
+              </div>
             </div>
           </div>
         </div>
       </section>
-      
-      {/* Features section */}
-      <section id="features" className="py-16 md:py-24 bg-gray-50">
+
+      {/* Features section with modern cards */}
+      <section id="features" className="py-20 md:py-32 bg-gray-50">
         <div className="container mx-auto px-4">
           <div className="text-center max-w-3xl mx-auto mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Powerful Features for Property Management</h2>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text text-transparent">
+              Powerful Features for Modern Property Management
+            </h2>
             <p className="text-lg text-gray-600">
               Our platform offers comprehensive tools designed specifically for real estate financial management.
             </p>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow duration-300">
+            {/* Feature cards with hover effects and gradients */}
+            <Card className="border-0 shadow-lg hover:shadow-xl transition-all duration-300 bg-white/70 backdrop-blur-sm group">
               <CardHeader>
-                <CircleDollarSign className="h-10 w-10 text-green-500 mb-2" />
+                <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-green-400 to-green-500 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
+                  <CircleDollarSign className="h-6 w-6 text-white" />
+                </div>
                 <CardTitle>Income Tracking</CardTitle>
                 <CardDescription>Track all rental income and additional property revenue sources in one place.</CardDescription>
               </CardHeader>
@@ -87,7 +106,7 @@ export function HomePage() {
               </CardContent>
             </Card>
             
-            <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow duration-300">
+            <Card className="border-0 shadow-lg hover:shadow-xl transition-all duration-300">
               <CardHeader>
                 <BarChart3 className="h-10 w-10 text-blue-500 mb-2" />
                 <CardTitle>Expense Management</CardTitle>
@@ -111,7 +130,7 @@ export function HomePage() {
               </CardContent>
             </Card>
             
-            <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow duration-300">
+            <Card className="border-0 shadow-lg hover:shadow-xl transition-all duration-300">
               <CardHeader>
                 <LineChart className="h-10 w-10 text-purple-500 mb-2" />
                 <CardTitle>Financial Reporting</CardTitle>
@@ -135,7 +154,7 @@ export function HomePage() {
               </CardContent>
             </Card>
             
-            <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow duration-300">
+            <Card className="border-0 shadow-lg hover:shadow-xl transition-all duration-300">
               <CardHeader>
                 <Users className="h-10 w-10 text-orange-500 mb-2" />
                 <CardTitle>Tenant Management</CardTitle>
@@ -159,7 +178,7 @@ export function HomePage() {
               </CardContent>
             </Card>
             
-            <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow duration-300">
+            <Card className="border-0 shadow-lg hover:shadow-xl transition-all duration-300">
               <CardHeader>
                 <Building2 className="h-10 w-10 text-teal-500 mb-2" />
                 <CardTitle>Property Portfolio</CardTitle>
@@ -183,7 +202,7 @@ export function HomePage() {
               </CardContent>
             </Card>
             
-            <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow duration-300">
+            <Card className="border-0 shadow-lg hover:shadow-xl transition-all duration-300">
               <CardHeader>
                 <Lock className="h-10 w-10 text-red-500 mb-2" />
                 <CardTitle>Secure Data Storage</CardTitle>
@@ -210,19 +229,22 @@ export function HomePage() {
         </div>
       </section>
       
-      {/* Pricing section */}
-      <section id="pricing" className="py-16 md:py-24">
-        <div className="container mx-auto px-4">
+      {/* Pricing section with modern design */}
+      <section id="pricing" className="py-20 md:py-32 relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-gray-50 to-white" />
+        <div className="container mx-auto px-4 relative">
           <div className="text-center max-w-3xl mx-auto mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Simple, Transparent Pricing</h2>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text text-transparent">
+              Transparent Pricing for Every Need
+            </h2>
             <p className="text-lg text-gray-600">
               Choose the plan that works best for your property management needs.
             </p>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-            {/* Basic Plan */}
-            <Card className="border shadow-lg relative overflow-hidden">
+            {/* Updated pricing cards with modern design */}
+            <Card className="border shadow-lg relative overflow-hidden transform hover:-translate-y-1 transition-all duration-300">
               <CardHeader>
                 <CardTitle>Starter</CardTitle>
                 <div className="text-3xl font-bold">$19<span className="text-lg font-normal text-gray-500">/month</span></div>
@@ -253,9 +275,8 @@ export function HomePage() {
               </CardFooter>
             </Card>
             
-            {/* Pro Plan */}
-            <Card className="border-2 border-green-500 shadow-xl relative overflow-hidden">
-              <div className="absolute top-0 right-0 bg-green-500 text-white px-3 py-1 text-xs font-medium">
+            <Card className="border-2 border-green-500 shadow-xl relative overflow-hidden transform hover:-translate-y-2 transition-all duration-300">
+              <div className="absolute top-0 right-0 bg-gradient-to-r from-green-500 to-green-600 text-white px-4 py-1 text-sm font-medium rounded-bl-lg">
                 POPULAR
               </div>
               <CardHeader>
@@ -292,8 +313,7 @@ export function HomePage() {
               </CardFooter>
             </Card>
             
-            {/* Enterprise Plan */}
-            <Card className="border shadow-lg relative overflow-hidden">
+            <Card className="border shadow-lg relative overflow-hidden transform hover:-translate-y-1 transition-all duration-300">
               <CardHeader>
                 <CardTitle>Enterprise</CardTitle>
                 <div className="text-3xl font-bold">$99<span className="text-lg font-normal text-gray-500">/month</span></div>
@@ -335,18 +355,20 @@ export function HomePage() {
         </div>
       </section>
       
-      {/* Testimonials section */}
-      <section id="testimonials" className="py-16 md:py-24 bg-gray-50">
+      {/* Testimonials section with modern cards */}
+      <section id="testimonials" className="py-20 md:py-32 bg-gray-50">
         <div className="container mx-auto px-4">
           <div className="text-center max-w-3xl mx-auto mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">What Our Clients Say</h2>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text text-transparent">
+              What Our Clients Say
+            </h2>
             <p className="text-lg text-gray-600">
               Don't just take our word for it – hear from property managers who use our platform daily.
             </p>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <Card className="bg-white border-0 shadow-lg">
+            <Card className="bg-white border-0 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
               <CardContent className="pt-6">
                 <div className="flex items-center mb-4">
                   {[1, 2, 3, 4, 5].map((star) => (
@@ -368,7 +390,7 @@ export function HomePage() {
               </CardContent>
             </Card>
             
-            <Card className="bg-white border-0 shadow-lg">
+            <Card className="bg-white border-0 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
               <CardContent className="pt-6">
                 <div className="flex items-center mb-4">
                   {[1, 2, 3, 4, 5].map((star) => (
@@ -390,7 +412,7 @@ export function HomePage() {
               </CardContent>
             </Card>
             
-            <Card className="bg-white border-0 shadow-lg">
+            <Card className="bg-white border-0 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
               <CardContent className="pt-6">
                 <div className="flex items-center mb-4">
                   {[1, 2, 3, 4, 5].map((star) => (
@@ -415,22 +437,23 @@ export function HomePage() {
         </div>
       </section>
       
-      {/* CTA section */}
-      <section id="contact" className="py-16 md:py-24 bg-green-600 text-white">
-        <div className="container mx-auto px-4">
+      {/* CTA section with gradient background */}
+      <section id="contact" className="py-20 md:py-32 relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-green-600 to-green-700" />
+        <div className="container mx-auto px-4 relative">
           <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-3xl md:text-4xl font-bold mb-6">Ready to streamline your property management?</h2>
+            <h2 className="text-3xl md:text-4xl font-bold mb-6 text-white">Ready to streamline your property management?</h2>
             <p className="text-xl mb-8 text-green-50">
               Join thousands of property managers who trust our platform for their financial needs.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link to="/register">
-                <Button size="lg" variant="default" className="bg-white text-green-600 hover:bg-gray-100 w-full sm:w-auto">
+                <Button size="lg" variant="default" className="bg-white text-green-600 hover:bg-gray-100 w-full sm:w-auto shadow-lg hover:shadow-xl transition-all duration-300">
                   Start Your Free Trial
                 </Button>
               </Link>
               <Link to="/contact">
-                <Button size="lg" variant="outline" className="border-white text-white hover:bg-green-700 w-full sm:w-auto">
+                <Button size="lg" variant="outline" className="border-white text-white hover:bg-green-700 w-full sm:w-auto backdrop-blur-sm">
                   Schedule a Demo
                 </Button>
               </Link>
@@ -439,8 +462,8 @@ export function HomePage() {
         </div>
       </section>
       
-      {/* Footer */}
-      <footer className="bg-gray-900 text-gray-300 py-12">
+      {/* Footer with modern design */}
+      <footer className="bg-gray-900 text-gray-300 py-16">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div>
