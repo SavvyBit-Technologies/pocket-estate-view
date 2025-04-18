@@ -99,3 +99,52 @@
     @apply bg-background text-foreground;
   }
 }
+
+@keyframes blob {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  25% {
+    transform: translate(20px, -10px) scale(1.05);
+  }
+  50% {
+    transform: translate(0, 20px) scale(0.95);
+  }
+  75% {
+    transform: translate(-20px, -10px) scale(1.05);
+  }
+}
+
+.animate-blob {
+  animation: blob 10s infinite;
+}
+
+.animation-delay-2000 {
+  animation-delay: 2s;
+}
+
+.animation-delay-4000 {
+  animation-delay: 4s;
+}
+
+/* Smooth scroll behavior */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Transition styles */
+.transition-transform {
+  transition-property: transform;
+}
+
+.transition-colors {
+  transition-property: background-color, border-color, color, fill, stroke;
+}
+
+.duration-300 {
+  transition-duration: 300ms;
+}
+
+.ease-in-out {
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}

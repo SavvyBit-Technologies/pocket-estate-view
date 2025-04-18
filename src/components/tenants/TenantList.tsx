@@ -13,6 +13,7 @@ import { MessageCircle, Search, UserPlus, Phone, Mail, Home } from "lucide-react
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const tenants = [
   { 
@@ -59,10 +60,12 @@ export function TenantList() {
             <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
             <Input placeholder="Search tenants..." className="pl-8" />
           </div>
-          <Button onClick={() => navigate("/add-tenant")}>
-            <UserPlus className="mr-2 h-4 w-4" />
-            Add Tenant
-          </Button>
+          <Link to="/dashboard/add-tenant">
+            <Button className="gap-2">
+              <UserPlus className="h-4 w-4" />
+              Add Tenant
+            </Button>
+          </Link>
         </div>
       </div>
 
