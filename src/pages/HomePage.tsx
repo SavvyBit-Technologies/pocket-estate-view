@@ -2,7 +2,7 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Check, ChevronRight, Building2, LineChart, Lock, Users, BarChart3, CircleDollarSign } from "lucide-react";
+import { Check, ChevronRight, Building2, LineChart, Lock, Users, BarChart3, CircleDollarSign, Home } from "lucide-react";
 import { Navbar } from "@/components/layout/Navbar";
 
 export function HomePage() {
