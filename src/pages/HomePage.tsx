@@ -21,24 +21,24 @@ export function HomePage() {
             <div className="space-y-8">
               <div>
                 <span className="inline-flex items-center rounded-full bg-green-50 px-3 py-1 text-sm font-medium text-green-700 ring-1 ring-inset ring-green-600/20">
-                  Smart Property Management
+                  Professional Property Management
                 </span>
               </div>
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text text-transparent">
-                Real Estate Financial Management Simplified
+                Transform Your Real Estate Portfolio Management
               </h1>
               <p className="text-xl text-gray-600 max-w-2xl">
-                Streamline your property portfolio with our AI-powered platform. Manage finances, tenants, and reports all in one place.
+                Streamline your property investments with our intelligent platform. From financial tracking to tenant management, we've got everything you need to succeed.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
                 <Link to="/register">
                   <Button size="lg" className="w-full sm:w-auto bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 shadow-lg hover:shadow-xl transition-all duration-300">
-                    Start Free Trial <ChevronRight className="ml-1 h-4 w-4" />
+                    Start Your Journey <ChevronRight className="ml-1 h-4 w-4" />
                   </Button>
                 </Link>
-                <Link to="/dashboard">
+                <Link to="/login">
                   <Button size="lg" variant="outline" className="w-full sm:w-auto border-2 hover:bg-gray-50">
-                    View Demo
+                    Login to Dashboard
                   </Button>
                 </Link>
               </div>
@@ -46,22 +46,37 @@ export function HomePage() {
             <div className="hidden lg:block relative">
               <div className="relative z-10 rounded-2xl overflow-hidden shadow-2xl transform hover:scale-105 transition-transform duration-300">
                 <img 
-                  src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab" 
-                  alt="Modern building" 
+                  src="https://images.unsplash.com/photo-1560520653-9e0e4c89eb11" 
+                  alt="Modern real estate dashboard" 
                   className="w-full object-cover h-[500px]"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
               </div>
               {/* Floating stats cards */}
               <div className="absolute -bottom-6 -left-6 bg-white rounded-lg shadow-xl p-4 transform hover:-translate-y-1 transition-transform duration-300">
-                <p className="font-semibold text-2xl text-green-600">98%</p>
-                <p className="text-sm text-gray-600">Client Satisfaction</p>
+                <p className="font-semibold text-2xl text-green-600">$2.5M+</p>
+                <p className="text-sm text-gray-600">Portfolio Value Managed</p>
               </div>
               <div className="absolute -top-6 -right-6 bg-white rounded-lg shadow-xl p-4 transform hover:-translate-y-1 transition-transform duration-300">
-                <p className="font-semibold text-2xl text-blue-600">50K+</p>
-                <p className="text-sm text-gray-600">Properties Managed</p>
+                <p className="font-semibold text-2xl text-blue-600">98%</p>
+                <p className="text-sm text-gray-600">Collection Rate</p>
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Trust indicators section */}
+      <section className="py-12 bg-white border-y border-gray-100">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-8">
+            <p className="text-gray-600 font-medium">Trusted by leading property management companies</p>
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 items-center justify-items-center opacity-70">
+            <img src="https://images.unsplash.com/photo-1641194298727-fa6e5bde6e4e" alt="Company logo" className="h-8 object-contain" />
+            <img src="https://images.unsplash.com/photo-1641194298727-fa6e5bde6e4e" alt="Company logo" className="h-8 object-contain" />
+            <img src="https://images.unsplash.com/photo-1641194298727-fa6e5bde6e4e" alt="Company logo" className="h-8 object-contain" />
+            <img src="https://images.unsplash.com/photo-1641194298727-fa6e5bde6e4e" alt="Company logo" className="h-8 object-contain" />
           </div>
         </div>
       </section>
@@ -229,6 +244,58 @@ export function HomePage() {
         </div>
       </section>
       
+      {/* Key benefits section */}
+      <section className="py-20 bg-gradient-to-br from-gray-50 to-white">
+        <div className="container mx-auto px-4">
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">
+              Why Choose Our Platform?
+            </h2>
+            <p className="text-lg text-gray-600">
+              Experience the future of property management with our comprehensive suite of tools
+            </p>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="relative p-6 bg-white rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300">
+              <div className="absolute -top-6 left-6">
+                <div className="w-12 h-12 bg-blue-500 rounded-lg flex items-center justify-center">
+                  <BarChart3 className="h-6 w-6 text-white" />
+                </div>
+              </div>
+              <div className="mt-6">
+                <h3 className="text-xl font-semibold mb-3">Financial Analytics</h3>
+                <p className="text-gray-600">Real-time insights into your property portfolio's performance with advanced analytics and reporting tools.</p>
+              </div>
+            </div>
+            
+            <div className="relative p-6 bg-white rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300">
+              <div className="absolute -top-6 left-6">
+                <div className="w-12 h-12 bg-green-500 rounded-lg flex items-center justify-center">
+                  <Users className="h-6 w-6 text-white" />
+                </div>
+              </div>
+              <div className="mt-6">
+                <h3 className="text-xl font-semibold mb-3">Tenant Management</h3>
+                <p className="text-gray-600">Streamlined tenant communication, maintenance requests, and payment processing in one place.</p>
+              </div>
+            </div>
+            
+            <div className="relative p-6 bg-white rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300">
+              <div className="absolute -top-6 left-6">
+                <div className="w-12 h-12 bg-purple-500 rounded-lg flex items-center justify-center">
+                  <Lock className="h-6 w-6 text-white" />
+                </div>
+              </div>
+              <div className="mt-6">
+                <h3 className="text-xl font-semibold mb-3">Secure Operations</h3>
+                <p className="text-gray-600">Bank-grade security for all your financial transactions and sensitive property data.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      
       {/* Pricing section with modern design */}
       <section id="pricing" className="py-20 md:py-32 relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-gray-50 to-white" />
@@ -351,6 +418,61 @@ export function HomePage() {
                 <Button variant="outline" className="w-full">Contact Sales</Button>
               </CardFooter>
             </Card>
+          </div>
+        </div>
+      </section>
+      
+      {/* ROI Calculator Section */}
+      <section className="py-20 bg-white">
+        <div className="container mx-auto px-4">
+          <div className="max-w-6xl mx-auto">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+              <div>
+                <h2 className="text-3xl md:text-4xl font-bold mb-6">See Your Potential Returns</h2>
+                <p className="text-lg text-gray-600 mb-8">
+                  Our platform helps property managers save an average of 15 hours per week and increase revenue by 23%
+                </p>
+                <div className="space-y-4">
+                  <div className="flex items-start gap-3">
+                    <div className="mt-1">
+                      <Check className="h-5 w-5 text-green-500" />
+                    </div>
+                    <div>
+                      <h4 className="font-semibold mb-1">Automated Rent Collection</h4>
+                      <p className="text-gray-600">Reduce late payments by up to 85%</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <div className="mt-1">
+                      <Check className="h-5 w-5 text-green-500" />
+                    </div>
+                    <div>
+                      <h4 className="font-semibold mb-1">Financial Reporting</h4>
+                      <p className="text-gray-600">Save 10+ hours monthly on report generation</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <div className="mt-1">
+                      <Check className="h-5 w-5 text-green-500" />
+                    </div>
+                    <div>
+                      <h4 className="font-semibold mb-1">Maintenance Management</h4>
+                      <p className="text-gray-600">Reduce maintenance costs by 30%</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="relative">
+                <div className="relative z-10">
+                  <img 
+                    src="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c"
+                    alt="Financial growth chart"
+                    className="rounded-2xl shadow-2xl"
+                  />
+                </div>
+                <div className="absolute -top-6 -right-6 -z-10 w-full h-full bg-gradient-to-br from-green-100 to-blue-100 rounded-2xl transform rotate-3" />
+              </div>
+            </div>
           </div>
         </div>
       </section>
