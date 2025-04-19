@@ -23,7 +23,7 @@ const queryClient = new QueryClient();
 const DashboardLayout = ({ children }: { children: React.ReactNode }) => (
   <div className="min-h-screen bg-gray-50">
     <Sidebar />
-    <div className="md:ml-64">
+    <div className="md:ml-16">
       {children}
     </div>
   </div>

@@ -35,7 +35,7 @@ export function Sidebar() {
       
       {/* Desktop sidebar */}
       <div className={cn(
-        "hidden md:flex h-screen w-64 flex-col fixed left-0 top-0 bottom-0 bg-gray-900 text-white p-4",
+        "hidden md:flex h-screen w-16 flex-col fixed left-0 top-0 bottom-0 bg-gray-900 text-white p-2",
         "transition-transform duration-300 ease-in-out",
       )}>
         <SidebarContent location={location} />
@@ -63,11 +63,10 @@ export function Sidebar() {
 function SidebarContent({ location, onItemClick }: { location: { pathname: string }, onItemClick?: () => void }) {
   return (
     <>
-      <div className="flex items-center gap-2 mb-8">
+      <div className="flex items-center justify-center mb-8">
         <div className="w-8 h-8 bg-green-500 rounded-lg flex items-center justify-center">
           <Home className="w-5 h-5 text-white" />
         </div>
-        <h1 className="text-lg font-semibold">ESTATE ACCOUNTING</h1>
       </div>
       
       <nav className="flex-1 space-y-1">
@@ -76,26 +75,27 @@ function SidebarContent({ location, onItemClick }: { location: { pathname: strin
             key={item.name} 
             to={item.href}
             onClick={onItemClick}
+            title={item.name}
           >
             <Button
               variant="ghost"
               className={cn(
-                "w-full justify-start gap-2 text-gray-300 hover:text-white hover:bg-gray-800",
+                "w-full justify-center gap-2 text-gray-300 hover:text-white hover:bg-gray-800 p-2",
                 location.pathname === item.href && "bg-green-600 text-white hover:bg-green-700"
               )}
             >
               <item.icon className="w-5 h-5" />
-              {item.name}
+              <span className="sr-only md:not-sr-only md:hidden">{item.name}</span>
             </Button>
           </Link>
         ))}
       </nav>
       
       <div className="mt-auto pt-4 border-t border-gray-800">
-        <Link to="/">
-          <Button variant="ghost" className="w-full justify-start gap-2 text-gray-300 hover:text-white hover:bg-gray-800">
+        <Link to="/" title="Back to Home">
+          <Button variant="ghost" className="w-full justify-center gap-2 text-gray-300 hover:text-white hover:bg-gray-800">
             <Home className="w-5 h-5" />
-            Back to Home
+            <span className="sr-only">Back to Home</span>
           </Button>
         </Link>
       </div>
