@@ -562,12 +562,32 @@ export function HomePage() {
       {/* CTA section with gradient background */}
       <section id="contact" className="py-20 md:py-32 relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-green-600 to-green-700" />
+        <div className="absolute inset-0 bg-grid-white/[0.2] bg-grid-16" />
         <div className="container mx-auto px-4 relative">
           <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-3xl md:text-4xl font-bold mb-6 text-white">Ready to streamline your property management?</h2>
-            <p className="text-xl mb-8 text-green-50">
+            <h2 className="text-3xl md:text-5xl font-bold mb-6 text-white leading-tight">
+              Ready to streamline your property management?
+            </h2>
+            <p className="text-xl mb-12 text-green-50 max-w-2xl mx-auto">
               Join thousands of property managers who trust our platform for their financial needs.
+              Save time, reduce costs, and grow your business.
             </p>
+            
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+              <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6 text-white">
+                <div className="text-3xl font-bold mb-2">$50M+</div>
+                <p className="text-green-50">Total Portfolio Value</p>
+              </div>
+              <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6 text-white">
+                <div className="text-3xl font-bold mb-2">1,000+</div>
+                <p className="text-green-50">Active Properties</p>
+              </div>
+              <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6 text-white">
+                <div className="text-3xl font-bold mb-2">98%</div>
+                <p className="text-green-50">Client Satisfaction</p>
+              </div>
+            </div>
+            
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link to="/register">
                 <Button size="lg" variant="default" className="bg-white text-green-600 hover:bg-gray-100 w-full sm:w-auto shadow-lg hover:shadow-xl transition-all duration-300">

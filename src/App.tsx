@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -16,6 +15,7 @@ import { TenantList } from "./components/tenants/TenantList";
 import { LoginForm } from "./components/auth/LoginForm";
 import { RegisterForm } from "./components/auth/RegisterForm";
 import { TenantForm } from "./components/forms/TenantForm";
+import { Transactions } from "./pages/Transactions";
 
 const queryClient = new QueryClient();
 
@@ -45,6 +45,7 @@ const App = () => (
           <Route path="/dashboard" element={<DashboardLayout><Index /></DashboardLayout>} />
           <Route path="/dashboard/income" element={<DashboardLayout><IncomeForm /></DashboardLayout>} />
           <Route path="/dashboard/expenses" element={<DashboardLayout><ExpenseForm /></DashboardLayout>} />
+          <Route path="/dashboard/transactions" element={<DashboardLayout><Transactions /></DashboardLayout>} />
           <Route path="/dashboard/tenants" element={<DashboardLayout><TenantList /></DashboardLayout>} />
           <Route path="/dashboard/add-tenant" element={<DashboardLayout><TenantForm /></DashboardLayout>} />
           <Route path="/dashboard/reports" element={<DashboardLayout><Reports /></DashboardLayout>} />
