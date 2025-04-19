@@ -41,7 +41,7 @@ export function Reports() {
   };
 
   return (
-    <div className="p-6 space-y-6 md:ml-64">
+    <div className="space-y-6 p-6">
       <div className="flex flex-col md:flex-row gap-4 items-start md:items-center justify-between">
         <h1 className="text-2xl font-semibold">Reports & Analytics</h1>
         <div className="flex gap-2">
@@ -56,7 +56,7 @@ export function Reports() {
         </div>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-2">
+      <div className="grid gap-6 md:grid-cols-2">
         <Card>
           <CardHeader>
             <CardTitle>Filter Report</CardTitle>

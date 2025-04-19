@@ -29,14 +29,17 @@ const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
 
 const Dashboard = () => {
   return (
-    <div className="p-6 md:ml-64 space-y-6">
+    <div className="space-y-6 p-6">
       {/* Search Bar */}
-      <div className="relative">
-        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
-        <Input 
-          placeholder="Search transactions, tenants..." 
-          className="pl-10 w-full md:w-[300px] bg-background"
-        />
+      <div className="flex items-center justify-between">
+        <h1 className="text-2xl font-semibold">Dashboard</h1>
+        <div className="relative">
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
+          <Input 
+            placeholder="Search transactions, tenants..." 
+            className="pl-10 w-full md:w-[300px] bg-background"
+          />
+        </div>
       </div>
 
       <div className="grid gap-4 md:grid-cols-3">
