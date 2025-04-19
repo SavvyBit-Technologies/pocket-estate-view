@@ -52,8 +52,8 @@ export function TenantList() {
   const navigate = useNavigate();
   
   return (
-    <div className="p-6 space-y-6 md:ml-64">
-      <div className="flex flex-col md:flex-row gap-4 items-start md:items-center justify-between">
+    <div className="p-6">
+      <div className="flex flex-col md:flex-row gap-4 items-start md:items-center justify-between mb-6">
         <h1 className="text-2xl font-semibold">Tenants</h1>
         <div className="flex gap-2 w-full md:w-auto">
           <div className="relative flex-1 md:w-64">

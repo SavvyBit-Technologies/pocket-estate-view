@@ -1,4 +1,3 @@
-
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
@@ -50,7 +49,7 @@ export function IncomeForm() {
   }
 
   return (
-    <div className="p-6 md:ml-64">
+    <div className="p-6">
       <Card className="max-w-2xl mx-auto">
         <CardHeader>
           <CardTitle className="text-xl flex items-center gap-2">

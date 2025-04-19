@@ -51,7 +51,7 @@ export function ExpenseForm() {
   }
 
   return (
-    <div className="p-6 md:ml-64">
+    <div className="p-6">
       <Card className="max-w-2xl mx-auto">
         <CardHeader>
           <CardTitle className="text-xl flex items-center gap-2">
