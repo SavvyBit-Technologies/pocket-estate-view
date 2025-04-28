@@ -38,7 +38,12 @@ export function TenantForm() {
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setIsLoading(true);
     try {
-      const result = await apiService.addTenant(values);
+      // Ensure we pass properly typed values
+      const tenantData = {
+        full_name: values.full_name,
+        house_number: values.house_number
+      };
+      const result = await apiService.addTenant(tenantData);
       toast.success("Tenant added successfully!", {
         description: `${result.name} has been added to your tenants.`,
       });

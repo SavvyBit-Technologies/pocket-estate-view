@@ -49,9 +49,15 @@ export function RegisterForm() {
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setIsLoading(true);
     try {
-      // Extract only the fields needed for API
+      // Extract only the fields needed for API and ensure they're all defined
       const { confirmPassword, ...registerData } = values;
-      await register(registerData);
+      await register({
+        username: registerData.username,
+        email: registerData.email,
+        password: registerData.password,
+        estate_name: registerData.estate_name,
+        estate_address: registerData.estate_address
+      });
     } catch (error) {
       console.error("Registration error:", error);
     } finally {

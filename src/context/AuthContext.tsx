@@ -2,6 +2,7 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from "react";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@/components/ui/use-toast";
+import { toast } from "sonner";
 
 // Define types for our authentication state
 interface AuthState {
@@ -25,7 +26,7 @@ interface AuthContextType extends AuthState {
   logout: () => void;
 }
 
-interface RegisterData {
+export interface RegisterData {
   username: string;
   email: string;
   password: string;
@@ -45,7 +46,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     user: null,
     token: null,
   });
-  const { toast } = useToast();
+  const { toast: uiToast } = useToast();
   const navigate = useNavigate();
 
   // Initialize auth state from localStorage on component mount
@@ -107,17 +108,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         token: data.token,
       });
 
-      toast({
-        title: "Login successful",
-        description: `Welcome back, ${data.username}!`,
-      });
+      toast.success(`Welcome back, ${data.username}!`);
 
       navigate("/dashboard");
     } catch (error) {
-      toast({
-        variant: "destructive",
-        title: "Login failed",
-        description: error instanceof Error ? error.message : "Something went wrong",
+      toast.error("Login failed", {
+        description: error instanceof Error ? error.message : "Something went wrong"
       });
       throw error;
     }
@@ -140,17 +136,14 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
       await response.json();
       
-      toast({
-        title: "Registration successful",
-        description: "You can now login with your credentials",
+      toast.success("Registration successful", {
+        description: "You can now login with your credentials"
       });
 
       navigate("/login");
     } catch (error) {
-      toast({
-        variant: "destructive",
-        title: "Registration failed",
-        description: error instanceof Error ? error.message : "Something went wrong",
+      toast.error("Registration failed", {
+        description: error instanceof Error ? error.message : "Something went wrong"
       });
       throw error;
     }

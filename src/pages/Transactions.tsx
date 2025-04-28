@@ -32,8 +32,14 @@ interface Expense {
   date_spent: string;
 }
 
-type Transaction = (Payment | Expense) & {
+type Transaction = {
+  id: number;
+  amount: string;
+  category: string;
+  description: string;
   type: "Income" | "Expense";
+  date: string; // Common date field for sorting
+  tenant_name?: string;
 }
 
 export function Transactions() {
@@ -67,10 +73,13 @@ export function Transactions() {
       // Find tenant name if available
       const tenant = tenants?.tenants?.find((t: any) => t.tenant_id === payment.tenant);
       transactions.push({
-        ...payment,
+        id: payment.id,
+        amount: payment.amount,
+        category: payment.category,
+        description: payment.description,
         type: "Income",
+        date: payment.date,
         tenant_name: tenant?.full_name || `Tenant #${payment.tenant}`,
-        date: payment.date // Use payment date
       });
     });
   }
@@ -78,9 +87,12 @@ export function Transactions() {
   if (expenses) {
     expenses.forEach((expense: Expense) => {
       transactions.push({
-        ...expense,
+        id: expense.id,
+        amount: expense.amount,
+        category: expense.category,
+        description: expense.description,
         type: "Expense",
-        date: expense.date_spent // Use expense date
+        date: expense.date_spent,
       });
     });
   }
@@ -92,7 +104,7 @@ export function Transactions() {
   const filteredTransactions = transactions.filter(transaction => 
     transaction.description.toLowerCase().includes(searchQuery.toLowerCase()) || 
     transaction.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    (transaction as any).tenant_name?.toLowerCase().includes(searchQuery.toLowerCase())
+    transaction.tenant_name?.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   const isLoading = isLoadingPayments || isLoadingExpenses;

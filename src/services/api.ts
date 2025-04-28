@@ -38,7 +38,8 @@ export const apiService = {
     });
     
     if (!response.ok) {
-      throw new Error("Failed to add tenant");
+      const errorData = await response.json();
+      throw new Error(errorData.detail || "Failed to add tenant");
     }
     
     return response.json();
@@ -65,7 +66,8 @@ export const apiService = {
     });
     
     if (!response.ok) {
-      throw new Error("Failed to create payment issue");
+      const errorData = await response.json();
+      throw new Error(errorData.detail || "Failed to create payment issue");
     }
     
     return response.json();
@@ -115,7 +117,8 @@ export const apiService = {
     });
     
     if (!response.ok) {
-      throw new Error("Failed to create expense");
+      const errorData = await response.json();
+      throw new Error(errorData.detail || "Failed to create expense");
     }
     
     return response.json();

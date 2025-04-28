@@ -17,6 +17,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { LogIn } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 import { useState } from "react";
+import { toast } from "sonner";
 
 const formSchema = z.object({
   username: z.string().min(1, { message: "Username is required" }),
