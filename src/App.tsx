@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -19,10 +18,10 @@ import { TenantForm } from "./components/forms/TenantForm";
 import { Transactions } from "./pages/Transactions";
 import { AuthProvider } from "./context/AuthContext";
 import { ProtectedRoute } from "./components/auth/ProtectedRoute";
+import CreatePayment from "./pages/CreatePayment";
 
 const queryClient = new QueryClient();
 
-// Layout component for dashboard pages
 const DashboardLayout = ({ children }: { children: React.ReactNode }) => (
   <ProtectedRoute>
     <div className="min-h-screen bg-gray-50">
@@ -42,12 +41,10 @@ const App = () => (
       <BrowserRouter>
         <AuthProvider>
           <Routes>
-            {/* Public pages */}
             <Route path="/" element={<HomePage />} />
             <Route path="/login" element={<LoginForm />} />
             <Route path="/register" element={<RegisterForm />} />
             
-            {/* Dashboard pages with sidebar */}
             <Route path="/dashboard" element={<DashboardLayout><Index /></DashboardLayout>} />
             <Route path="/dashboard/income" element={<DashboardLayout><IncomeForm /></DashboardLayout>} />
             <Route path="/dashboard/expenses" element={<DashboardLayout><ExpenseForm /></DashboardLayout>} />
@@ -56,8 +53,8 @@ const App = () => (
             <Route path="/dashboard/add-tenant" element={<DashboardLayout><TenantForm /></DashboardLayout>} />
             <Route path="/dashboard/reports" element={<DashboardLayout><Reports /></DashboardLayout>} />
             <Route path="/dashboard/settings" element={<DashboardLayout><Settings /></DashboardLayout>} />
+            <Route path="/dashboard/create-payment" element={<DashboardLayout><CreatePayment /></DashboardLayout>} />
             
-            {/* 404 route */}
             <Route path="*" element={<NotFound />} />
           </Routes>
         </AuthProvider>
