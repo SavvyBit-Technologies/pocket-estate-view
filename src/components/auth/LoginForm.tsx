@@ -29,6 +29,7 @@ export function LoginForm() {
   const navigate = useNavigate();
   const location = useLocation();
   const [isLoading, setIsLoading] = useState(false);
+  const [loginError, setLoginError] = useState("");
   
   // Get redirect path if user was redirected from a protected route
   const from = location.state?.from?.pathname || "/dashboard";
@@ -43,11 +44,20 @@ export function LoginForm() {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setIsLoading(true);
+    setLoginError("");
+    
     try {
       await login(values.username, values.password);
       navigate(from);
     } catch (error) {
       console.error("Login error:", error);
+      const errorMessage = error instanceof Error 
+        ? error.message 
+        : "Failed to connect to server. Please try again later.";
+      setLoginError(errorMessage);
+      toast.error("Login failed", {
+        description: errorMessage
+      });
     } finally {
       setIsLoading(false);
     }
@@ -68,6 +78,11 @@ export function LoginForm() {
             <CardTitle className="text-3xl">Welcome Back</CardTitle>
           </CardHeader>
           <CardContent>
+            {loginError && (
+              <div className="mb-4 rounded-md bg-red-50 p-3 text-sm text-red-800">
+                {loginError}
+              </div>
+            )}
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
                 <FormField

@@ -19,58 +19,80 @@ const createAuthHeaders = (): HeadersInit => {
 export const apiService = {
   // Tenant-related endpoints
   async fetchTenants() {
-    const response = await fetch(`${API_URL}/tenants/`, {
-      headers: createAuthHeaders(),
-    });
-    
-    if (!response.ok) {
-      throw new Error("Failed to fetch tenants");
+    try {
+      const response = await fetch(`${API_URL}/tenants/`, {
+        headers: createAuthHeaders(),
+      });
+      
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.detail || `Failed to fetch tenants (Status: ${response.status})`);
+      }
+      
+      return response.json();
+    } catch (error) {
+      console.error("API Error in fetchTenants:", error);
+      throw error;
     }
-    
-    return response.json();
   },
   
   async addTenant(data: { full_name: string; house_number: string }) {
-    const response = await fetch(`${API_URL}/tenants/add/`, {
-      method: "POST",
-      headers: createAuthHeaders(),
-      body: JSON.stringify(data),
-    });
-    
-    if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.detail || "Failed to add tenant");
+    try {
+      const response = await fetch(`${API_URL}/tenants/add/`, {
+        method: "POST",
+        headers: createAuthHeaders(),
+        body: JSON.stringify(data),
+      });
+      
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.detail || `Failed to add tenant (Status: ${response.status})`);
+      }
+      
+      return response.json();
+    } catch (error) {
+      console.error("API Error in addTenant:", error);
+      throw error;
     }
-    
-    return response.json();
   },
   
   // Payment-related endpoints
   async fetchPayments() {
-    const response = await fetch(`${API_URL}/payments/`, {
-      headers: createAuthHeaders(),
-    });
-    
-    if (!response.ok) {
-      throw new Error("Failed to fetch payments");
+    try {
+      const response = await fetch(`${API_URL}/payments/`, {
+        headers: createAuthHeaders(),
+      });
+      
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.detail || `Failed to fetch payments (Status: ${response.status})`);
+      }
+      
+      return response.json();
+    } catch (error) {
+      console.error("API Error in fetchPayments:", error);
+      throw error;
     }
-    
-    return response.json();
   },
   
   async createPaymentIssue(data: { title: string; amount: number; description: string }) {
-    const response = await fetch(`${API_URL}/payment-issues/`, {
-      method: "POST",
-      headers: createAuthHeaders(),
-      body: JSON.stringify(data),
-    });
-    
-    if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.detail || "Failed to create payment issue");
+    try {
+      const response = await fetch(`${API_URL}/payment-issues/`, {
+        method: "POST",
+        headers: createAuthHeaders(),
+        body: JSON.stringify(data),
+      });
+      
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.detail || `Failed to create payment issue (Status: ${response.status})`);
+      }
+      
+      return response.json();
+    } catch (error) {
+      console.error("API Error in createPaymentIssue:", error);
+      throw error;
     }
-    
-    return response.json();
   },
   
   async createPayment(data: { 
@@ -82,76 +104,104 @@ export const apiService = {
     description: string;
     date: string;
   }) {
-    const response = await fetch(`${API_URL}/create-payment/`, {
-      method: "POST",
-      headers: createAuthHeaders(),
-      body: JSON.stringify(data),
-    });
-    
-    if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.detail || "Failed to create payment");
+    try {
+      const response = await fetch(`${API_URL}/create-payment/`, {
+        method: "POST",
+        headers: createAuthHeaders(),
+        body: JSON.stringify(data),
+      });
+      
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.detail || `Failed to create payment (Status: ${response.status})`);
+      }
+      
+      return response.json();
+    } catch (error) {
+      console.error("API Error in createPayment:", error);
+      throw error;
     }
-    
-    return response.json();
   },
   
   // Expense-related endpoints
   async fetchExpenses() {
-    const response = await fetch(`${API_URL}/list-expenses/`, {
-      headers: createAuthHeaders(),
-    });
-    
-    if (!response.ok) {
-      throw new Error("Failed to fetch expenses");
+    try {
+      const response = await fetch(`${API_URL}/list-expenses/`, {
+        headers: createAuthHeaders(),
+      });
+      
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.detail || `Failed to fetch expenses (Status: ${response.status})`);
+      }
+      
+      return response.json();
+    } catch (error) {
+      console.error("API Error in fetchExpenses:", error);
+      throw error;
     }
-    
-    return response.json();
   },
   
   async createExpense(data: { category: string; description: string; amount: number }) {
-    const response = await fetch(`${API_URL}/create-expense/`, {
-      method: "POST",
-      headers: createAuthHeaders(),
-      body: JSON.stringify(data),
-    });
-    
-    if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.detail || "Failed to create expense");
+    try {
+      const response = await fetch(`${API_URL}/create-expense/`, {
+        method: "POST",
+        headers: createAuthHeaders(),
+        body: JSON.stringify(data),
+      });
+      
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.detail || `Failed to create expense (Status: ${response.status})`);
+      }
+      
+      return response.json();
+    } catch (error) {
+      console.error("API Error in createExpense:", error);
+      throw error;
     }
-    
-    return response.json();
   },
   
   // Dashboard data
   async fetchMonthlySummary(month?: number, year?: number) {
-    let url = `${API_URL}/monthly-summary/`;
-    
-    if (month && year) {
-      url += `?month=${month}&year=${year}`;
+    try {
+      let url = `${API_URL}/monthly-summary/`;
+      
+      if (month && year) {
+        url += `?month=${month}&year=${year}`;
+      }
+      
+      const response = await fetch(url, {
+        headers: createAuthHeaders(),
+      });
+      
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.detail || `Failed to fetch monthly summary (Status: ${response.status})`);
+      }
+      
+      return response.json();
+    } catch (error) {
+      console.error("API Error in fetchMonthlySummary:", error);
+      throw error;
     }
-    
-    const response = await fetch(url, {
-      headers: createAuthHeaders(),
-    });
-    
-    if (!response.ok) {
-      throw new Error("Failed to fetch monthly summary");
-    }
-    
-    return response.json();
   },
   
   async fetchOutstandingPayments() {
-    const response = await fetch(`${API_URL}/list-due-payment/`, {
-      headers: createAuthHeaders(),
-    });
-    
-    if (!response.ok) {
-      throw new Error("Failed to fetch outstanding payments");
+    try {
+      const response = await fetch(`${API_URL}/list-due-payment/`, {
+        headers: createAuthHeaders(),
+      });
+      
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.detail || `Failed to fetch outstanding payments (Status: ${response.status})`);
+      }
+      
+      return response.json();
+    } catch (error) {
+      console.error("API Error in fetchOutstandingPayments:", error);
+      throw error;
     }
-    
-    return response.json();
   },
 };
