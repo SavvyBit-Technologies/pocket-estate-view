@@ -1,3 +1,4 @@
+
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
@@ -14,30 +15,48 @@ import {
 } from "@/components/ui/form";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { UserPlus } from "lucide-react";
+import { useAuth } from "@/context/AuthContext";
+import { useState } from "react";
 
 const formSchema = z.object({
-  name: z.string().min(2, { message: "Name must be at least 2 characters" }),
+  username: z.string().min(2, { message: "Username must be at least 2 characters" }),
   email: z.string().email({ message: "Invalid email address" }),
   password: z.string().min(6, { message: "Password must be at least 6 characters" }),
   confirmPassword: z.string(),
+  estate_name: z.string().min(2, { message: "Estate name must be at least 2 characters" }),
+  estate_address: z.string().min(2, { message: "Estate address must be at least 2 characters" }),
 }).refine((data) => data.password === data.confirmPassword, {
   message: "Passwords don't match",
   path: ["confirmPassword"],
 });
 
 export function RegisterForm() {
+  const { register } = useAuth();
+  const [isLoading, setIsLoading] = useState(false);
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: "",
+      username: "",
       email: "",
       password: "",
       confirmPassword: "",
+      estate_name: "",
+      estate_address: "",
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    setIsLoading(true);
+    try {
+      // Extract only the fields needed for API
+      const { confirmPassword, ...registerData } = values;
+      await register(registerData);
+    } catch (error) {
+      console.error("Registration error:", error);
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   return (
@@ -59,12 +78,12 @@ export function RegisterForm() {
               <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
                 <FormField
                   control={form.control}
-                  name="name"
+                  name="username"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Full Name</FormLabel>
+                      <FormLabel>Username</FormLabel>
                       <FormControl>
-                        <Input placeholder="John Doe" {...field} />
+                        <Input placeholder="johndoe" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -79,6 +98,34 @@ export function RegisterForm() {
                       <FormLabel>Email</FormLabel>
                       <FormControl>
                         <Input placeholder="john@example.com" type="email" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                
+                <FormField
+                  control={form.control}
+                  name="estate_name"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Estate Name</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Savannah Gardens" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                
+                <FormField
+                  control={form.control}
+                  name="estate_address"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Estate Address</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Lagos, Nigeria" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -113,8 +160,17 @@ export function RegisterForm() {
                   )}
                 />
 
-                <Button type="submit" className="w-full">
-                  <UserPlus className="mr-2 h-4 w-4" /> Create Account
+                <Button type="submit" className="w-full" disabled={isLoading}>
+                  {isLoading ? (
+                    <span className="flex items-center">
+                      <span className="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-t-transparent"></span>
+                      Creating Account...
+                    </span>
+                  ) : (
+                    <>
+                      <UserPlus className="mr-2 h-4 w-4" /> Create Account
+                    </>
+                  )}
                 </Button>
               </form>
             </Form>

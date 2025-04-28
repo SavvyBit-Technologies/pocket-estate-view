@@ -1,3 +1,4 @@
+
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
@@ -21,31 +22,55 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { toast } from "sonner";
 import { Calendar, CreditCard, DollarSign, Tag, User } from "lucide-react";
+import { apiService } from "@/services/api";
+import { useState } from "react";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 
 const formSchema = z.object({
-  name: z.string().min(2, "Name must be at least 2 characters"),
+  title: z.string().min(2, "Title must be at least 2 characters"),
   amount: z.string().min(1, "Amount is required"),
-  category: z.string().min(1, "Please select a category"),
+  description: z.string().min(2, "Description is required"),
   date: z.string(),
 });
 
 export function IncomeForm() {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const queryClient = useQueryClient();
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: "",
+      title: "",
       amount: "",
-      category: "",
+      description: "",
       date: new Date().toISOString().split('T')[0],
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
-    toast.success("Income record added successfully!", {
-      description: `₦${values.amount} from ${values.name}`,
-    });
-    form.reset();
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    setIsSubmitting(true);
+    try {
+      await apiService.createPaymentIssue({
+        title: values.title,
+        amount: parseFloat(values.amount),
+        description: values.description,
+      });
+      
+      toast.success("Payment issue created successfully!", {
+        description: `₦${values.amount} for ${values.title}`,
+      });
+      
+      // Invalidate queries to refetch data
+      queryClient.invalidateQueries({ queryKey: ["payment-issues"] });
+      
+      form.reset();
+    } catch (error) {
+      toast.error("Failed to create payment issue", {
+        description: error instanceof Error ? error.message : "Please try again later",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   }
 
   return (
@@ -54,7 +79,7 @@ export function IncomeForm() {
         <CardHeader>
           <CardTitle className="text-xl flex items-center gap-2">
             <CreditCard className="h-5 w-5 text-green-500" /> 
-            Record New Income
+            Create Payment Issue
           </CardTitle>
         </CardHeader>
         <CardContent>
@@ -62,14 +87,14 @@ export function IncomeForm() {
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
               <FormField
                 control={form.control}
-                name="name"
+                name="title"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel className="flex items-center gap-1">
-                      <User className="h-4 w-4 opacity-70" /> Tenant/Payer Name
+                      <User className="h-4 w-4 opacity-70" /> Payment Title
                     </FormLabel>
                     <FormControl>
-                      <Input placeholder="Enter tenant or payer name" {...field} className="focus-visible:ring-green-500" />
+                      <Input placeholder="e.g. Security Fee - May" {...field} className="focus-visible:ring-green-500" />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -92,25 +117,15 @@ export function IncomeForm() {
               />
               <FormField
                 control={form.control}
-                name="category"
+                name="description"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel className="flex items-center gap-1">
-                      <Tag className="h-4 w-4 opacity-70" /> Category
+                      <Tag className="h-4 w-4 opacity-70" /> Description
                     </FormLabel>
-                    <Select onValueChange={field.onChange} defaultValue={field.value}>
-                      <FormControl>
-                        <SelectTrigger className="focus-visible:ring-green-500">
-                          <SelectValue placeholder="Select a category" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        <SelectItem value="rent">Rent</SelectItem>
-                        <SelectItem value="utilities">Utilities</SelectItem>
-                        <SelectItem value="security">Security</SelectItem>
-                        <SelectItem value="other">Other</SelectItem>
-                      </SelectContent>
-                    </Select>
+                    <FormControl>
+                      <Input placeholder="Enter payment description" {...field} className="focus-visible:ring-green-500" />
+                    </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
@@ -133,8 +148,9 @@ export function IncomeForm() {
               <Button 
                 type="submit" 
                 className="w-full bg-green-500 hover:bg-green-600 transition-colors"
+                disabled={isSubmitting}
               >
-                Add Income Record
+                {isSubmitting ? "Creating Payment Issue..." : "Create Payment Issue"}
               </Button>
             </form>
           </Form>

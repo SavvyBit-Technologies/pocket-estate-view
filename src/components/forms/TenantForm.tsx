@@ -15,35 +15,45 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { apiService } from "@/services/api";
+import { useState } from "react";
 
 const formSchema = z.object({
-  name: z.string().min(2, { message: "Name must be at least 2 characters" }),
-  email: z.string().email({ message: "Invalid email address" }),
-  phone: z.string().min(6, { message: "Phone number is required" }),
-  house: z.string().min(1, { message: "House number is required" }),
+  full_name: z.string().min(2, { message: "Name must be at least 2 characters" }),
+  house_number: z.string().min(1, { message: "House number is required" }),
 });
 
 export function TenantForm() {
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
+  
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: "",
-      email: "",
-      phone: "",
-      house: "",
+      full_name: "",
+      house_number: "",
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    // Here you would typically save the tenant data
-    console.log(values);
-    toast.success("Tenant added successfully!");
-    navigate("/tenants");
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    setIsLoading(true);
+    try {
+      const result = await apiService.addTenant(values);
+      toast.success("Tenant added successfully!", {
+        description: `${result.name} has been added to your tenants.`,
+      });
+      navigate("/dashboard/tenants");
+    } catch (error) {
+      toast.error("Failed to add tenant", {
+        description: error instanceof Error ? error.message : "Please try again later",
+      });
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   return (
-    <div className="p-6 space-y-6 md:ml-64">
+    <div className="p-6">
       <Card className="max-w-2xl mx-auto">
         <CardHeader>
           <CardTitle>Add New Tenant</CardTitle>
@@ -53,7 +63,7 @@ export function TenantForm() {
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
               <FormField
                 control={form.control}
-                name="name"
+                name="full_name"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Full Name</FormLabel>
@@ -67,47 +77,21 @@ export function TenantForm() {
 
               <FormField
                 control={form.control}
-                name="email"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Email</FormLabel>
-                    <FormControl>
-                      <Input placeholder="john@example.com" type="email" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="phone"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Phone Number</FormLabel>
-                    <FormControl>
-                      <Input placeholder="+1234567890" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="house"
+                name="house_number"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>House Number</FormLabel>
                     <FormControl>
-                      <Input placeholder="A1" {...field} />
+                      <Input placeholder="Block A, Flat 2" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
 
-              <Button type="submit" className="w-full">Submit</Button>
+              <Button type="submit" className="w-full" disabled={isLoading}>
+                {isLoading ? "Adding Tenant..." : "Submit"}
+              </Button>
             </form>
           </Form>
         </CardContent>

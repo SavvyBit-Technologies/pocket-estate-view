@@ -1,3 +1,4 @@
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -16,17 +17,21 @@ import { LoginForm } from "./components/auth/LoginForm";
 import { RegisterForm } from "./components/auth/RegisterForm";
 import { TenantForm } from "./components/forms/TenantForm";
 import { Transactions } from "./pages/Transactions";
+import { AuthProvider } from "./context/AuthContext";
+import { ProtectedRoute } from "./components/auth/ProtectedRoute";
 
 const queryClient = new QueryClient();
 
 // Layout component for dashboard pages
 const DashboardLayout = ({ children }: { children: React.ReactNode }) => (
-  <div className="min-h-screen bg-gray-50">
-    <Sidebar />
-    <div className="md:ml-16">
-      {children}
+  <ProtectedRoute>
+    <div className="min-h-screen bg-gray-50">
+      <Sidebar />
+      <div className="md:ml-16">
+        {children}
+      </div>
     </div>
-  </div>
+  </ProtectedRoute>
 );
 
 const App = () => (
@@ -35,25 +40,27 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
-        <Routes>
-          {/* Public pages */}
-          <Route path="/" element={<HomePage />} />
-          <Route path="/login" element={<LoginForm />} />
-          <Route path="/register" element={<RegisterForm />} />
-          
-          {/* Dashboard pages with sidebar */}
-          <Route path="/dashboard" element={<DashboardLayout><Index /></DashboardLayout>} />
-          <Route path="/dashboard/income" element={<DashboardLayout><IncomeForm /></DashboardLayout>} />
-          <Route path="/dashboard/expenses" element={<DashboardLayout><ExpenseForm /></DashboardLayout>} />
-          <Route path="/dashboard/transactions" element={<DashboardLayout><Transactions /></DashboardLayout>} />
-          <Route path="/dashboard/tenants" element={<DashboardLayout><TenantList /></DashboardLayout>} />
-          <Route path="/dashboard/add-tenant" element={<DashboardLayout><TenantForm /></DashboardLayout>} />
-          <Route path="/dashboard/reports" element={<DashboardLayout><Reports /></DashboardLayout>} />
-          <Route path="/dashboard/settings" element={<DashboardLayout><Settings /></DashboardLayout>} />
-          
-          {/* 404 route */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+        <AuthProvider>
+          <Routes>
+            {/* Public pages */}
+            <Route path="/" element={<HomePage />} />
+            <Route path="/login" element={<LoginForm />} />
+            <Route path="/register" element={<RegisterForm />} />
+            
+            {/* Dashboard pages with sidebar */}
+            <Route path="/dashboard" element={<DashboardLayout><Index /></DashboardLayout>} />
+            <Route path="/dashboard/income" element={<DashboardLayout><IncomeForm /></DashboardLayout>} />
+            <Route path="/dashboard/expenses" element={<DashboardLayout><ExpenseForm /></DashboardLayout>} />
+            <Route path="/dashboard/transactions" element={<DashboardLayout><Transactions /></DashboardLayout>} />
+            <Route path="/dashboard/tenants" element={<DashboardLayout><TenantList /></DashboardLayout>} />
+            <Route path="/dashboard/add-tenant" element={<DashboardLayout><TenantForm /></DashboardLayout>} />
+            <Route path="/dashboard/reports" element={<DashboardLayout><Reports /></DashboardLayout>} />
+            <Route path="/dashboard/settings" element={<DashboardLayout><Settings /></DashboardLayout>} />
+            
+            {/* 404 route */}
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </AuthProvider>
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>

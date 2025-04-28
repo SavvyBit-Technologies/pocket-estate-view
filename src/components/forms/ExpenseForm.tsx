@@ -23,6 +23,9 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { toast } from "sonner";
 import { Calendar, CreditCard, DollarSign, FileText, Tag } from "lucide-react";
+import { apiService } from "@/services/api";
+import { useState } from "react";
+import { useQueryClient } from "@tanstack/react-query";
 
 const formSchema = z.object({
   description: z.string().min(2, "Description must be at least 2 characters"),
@@ -32,6 +35,9 @@ const formSchema = z.object({
 });
 
 export function ExpenseForm() {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const queryClient = useQueryClient();
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -42,12 +48,31 @@ export function ExpenseForm() {
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
-    toast.success("Expense record added successfully!", {
-      description: `₦${values.amount} for ${values.description}`,
-    });
-    form.reset();
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    setIsSubmitting(true);
+    try {
+      await apiService.createExpense({
+        description: values.description,
+        amount: parseFloat(values.amount),
+        category: values.category,
+      });
+      
+      toast.success("Expense record added successfully!", {
+        description: `₦${values.amount} for ${values.description}`,
+      });
+      
+      // Invalidate queries to refetch data
+      queryClient.invalidateQueries({ queryKey: ["expenses"] });
+      queryClient.invalidateQueries({ queryKey: ["monthly-summary"] });
+      
+      form.reset();
+    } catch (error) {
+      toast.error("Failed to add expense", {
+        description: error instanceof Error ? error.message : "Please try again later",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   }
 
   return (
@@ -114,6 +139,7 @@ export function ExpenseForm() {
                         <SelectItem value="maintenance">Maintenance</SelectItem>
                         <SelectItem value="utilities">Utilities</SelectItem>
                         <SelectItem value="security">Security</SelectItem>
+                        <SelectItem value="repairs">Repairs</SelectItem>
                         <SelectItem value="other">Other</SelectItem>
                       </SelectContent>
                     </Select>
@@ -139,8 +165,9 @@ export function ExpenseForm() {
               <Button 
                 type="submit" 
                 className="w-full bg-red-500 hover:bg-red-600 transition-colors"
+                disabled={isSubmitting}
               >
-                Add Expense Record
+                {isSubmitting ? "Adding Expense..." : "Add Expense Record"}
               </Button>
             </form>
           </Form>

@@ -1,7 +1,8 @@
+
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -14,23 +15,41 @@ import {
 } from "@/components/ui/form";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { LogIn } from "lucide-react";
+import { useAuth } from "@/context/AuthContext";
+import { useState } from "react";
 
 const formSchema = z.object({
-  email: z.string().email({ message: "Invalid email address" }),
+  username: z.string().min(1, { message: "Username is required" }),
   password: z.string().min(6, { message: "Password must be at least 6 characters" }),
 });
 
 export function LoginForm() {
+  const { login } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [isLoading, setIsLoading] = useState(false);
+  
+  // Get redirect path if user was redirected from a protected route
+  const from = location.state?.from?.pathname || "/dashboard";
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      email: "",
+      username: "",
       password: "",
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    setIsLoading(true);
+    try {
+      await login(values.username, values.password);
+      navigate(from);
+    } catch (error) {
+      console.error("Login error:", error);
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   return (
@@ -52,12 +71,12 @@ export function LoginForm() {
               <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
                 <FormField
                   control={form.control}
-                  name="email"
+                  name="username"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Email</FormLabel>
+                      <FormLabel>Username</FormLabel>
                       <FormControl>
-                        <Input placeholder="john@example.com" type="email" {...field} />
+                        <Input placeholder="johndoe" type="text" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -78,8 +97,17 @@ export function LoginForm() {
                   )}
                 />
 
-                <Button type="submit" className="w-full">
-                  <LogIn className="mr-2 h-4 w-4" /> Sign In
+                <Button type="submit" className="w-full" disabled={isLoading}>
+                  {isLoading ? (
+                    <span className="flex items-center">
+                      <span className="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-t-transparent"></span>
+                      Signing in...
+                    </span>
+                  ) : (
+                    <>
+                      <LogIn className="mr-2 h-4 w-4" /> Sign In
+                    </>
+                  )}
                 </Button>
               </form>
             </Form>

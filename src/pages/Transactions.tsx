@@ -10,31 +10,93 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ChevronDown, ChevronUp, DollarSign, Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
+import { useQuery } from "@tanstack/react-query";
+import { apiService } from "@/services/api";
+import { useState } from "react";
 
-// Sample data - in a real app this would come from your backend
-const transactions = [
-  {
-    id: 1,
-    date: "2024-04-19",
-    type: "Income",
-    description: "Rent Payment - Unit 101",
-    amount: 2500,
-    category: "Rent",
-    status: "Completed",
-  },
-  {
-    id: 2,
-    date: "2024-04-18",
-    type: "Expense",
-    description: "Building Maintenance",
-    amount: -850,
-    category: "Maintenance",
-    status: "Completed",
-  },
-  // Add more transactions...
-];
+interface Payment {
+  id: number;
+  tenant: number;
+  amount: string;
+  category: string;
+  description: string;
+  date: string;
+  tenant_name?: string;
+}
+
+interface Expense {
+  id: number;
+  category: string;
+  description: string;
+  amount: string;
+  date_spent: string;
+}
+
+type Transaction = (Payment | Expense) & {
+  type: "Income" | "Expense";
+}
 
 export function Transactions() {
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const { data: payments, isLoading: isLoadingPayments } = useQuery({
+    queryKey: ["payments"],
+    queryFn: apiService.fetchPayments,
+  });
+
+  const { data: expenses, isLoading: isLoadingExpenses } = useQuery({
+    queryKey: ["expenses"],
+    queryFn: apiService.fetchExpenses,
+  });
+
+  const { data: tenants } = useQuery({
+    queryKey: ["tenants"],
+    queryFn: apiService.fetchTenants,
+  });
+
+  const { data: summary } = useQuery({
+    queryKey: ["monthly-summary"],
+    queryFn: () => apiService.fetchMonthlySummary(),
+  });
+
+  // Combine and prepare transactions data
+  const transactions: Transaction[] = [];
+
+  if (payments) {
+    payments.forEach((payment: Payment) => {
+      // Find tenant name if available
+      const tenant = tenants?.tenants?.find((t: any) => t.tenant_id === payment.tenant);
+      transactions.push({
+        ...payment,
+        type: "Income",
+        tenant_name: tenant?.full_name || `Tenant #${payment.tenant}`,
+        date: payment.date // Use payment date
+      });
+    });
+  }
+
+  if (expenses) {
+    expenses.forEach((expense: Expense) => {
+      transactions.push({
+        ...expense,
+        type: "Expense",
+        date: expense.date_spent // Use expense date
+      });
+    });
+  }
+
+  // Sort by date (newest first)
+  transactions.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+
+  // Filter based on search query
+  const filteredTransactions = transactions.filter(transaction => 
+    transaction.description.toLowerCase().includes(searchQuery.toLowerCase()) || 
+    transaction.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    (transaction as any).tenant_name?.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  const isLoading = isLoadingPayments || isLoadingExpenses;
+
   return (
     <div className="p-6">
       <div className="flex flex-col md:flex-row gap-4 items-start md:items-center justify-between mb-6">
@@ -44,6 +106,8 @@ export function Transactions() {
           <Input 
             placeholder="Search transactions..." 
             className="pl-10 w-full"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
           />
         </div>
       </div>
@@ -56,10 +120,10 @@ export function Transactions() {
               <DollarSign className="h-4 w-4 text-green-500" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-green-600">$12,500</div>
+              <div className="text-2xl font-bold text-green-600">₦{summary?.total_payments || 0}</div>
               <p className="text-xs text-muted-foreground flex items-center">
                 <ChevronUp className="h-4 w-4 text-green-500" />
-                +15% from last month
+                {summary?.month} {summary?.year}
               </p>
             </CardContent>
           </Card>
@@ -69,10 +133,10 @@ export function Transactions() {
               <DollarSign className="h-4 w-4 text-red-500" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-red-600">$4,200</div>
+              <div className="text-2xl font-bold text-red-600">₦{summary?.total_expenses || 0}</div>
               <p className="text-xs text-muted-foreground flex items-center">
                 <ChevronDown className="h-4 w-4 text-red-500" />
-                +8% from last month
+                {summary?.month} {summary?.year}
               </p>
             </CardContent>
           </Card>
@@ -81,51 +145,60 @@ export function Transactions() {
 
       <Card>
         <CardContent className="p-0">
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Date</TableHead>
-                <TableHead>Description</TableHead>
-                <TableHead>Category</TableHead>
-                <TableHead>Type</TableHead>
-                <TableHead className="text-right">Amount</TableHead>
-                <TableHead>Status</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {transactions.map((transaction) => (
-                <TableRow key={transaction.id}>
-                  <TableCell>{transaction.date}</TableCell>
-                  <TableCell>{transaction.description}</TableCell>
-                  <TableCell>{transaction.category}</TableCell>
-                  <TableCell>
-                    <span className={`inline-flex items-center rounded-full px-2 py-1 text-xs font-medium ${
-                      transaction.type === 'Income' 
-                        ? 'bg-green-50 text-green-700' 
-                        : 'bg-red-50 text-red-700'
-                    }`}>
-                      {transaction.type}
-                    </span>
-                  </TableCell>
-                  <TableCell className={`text-right font-medium ${
-                    transaction.type === 'Income' 
-                      ? 'text-green-600' 
-                      : 'text-red-600'
-                  }`}>
-                    {transaction.type === 'Income' ? '+' : ''}{transaction.amount.toLocaleString('en-US', {
-                      style: 'currency',
-                      currency: 'USD'
-                    })}
-                  </TableCell>
-                  <TableCell>
-                    <span className="inline-flex items-center rounded-full px-2 py-1 text-xs font-medium bg-blue-50 text-blue-700">
-                      {transaction.status}
-                    </span>
-                  </TableCell>
+          {isLoading ? (
+            <div className="flex justify-center items-center h-64">
+              <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-green-500"></div>
+            </div>
+          ) : filteredTransactions.length === 0 ? (
+            <div className="text-center py-8 text-muted-foreground">
+              {searchQuery ? "No transactions match your search." : "No transactions found."}
+            </div>
+          ) : (
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Date</TableHead>
+                  <TableHead>Description</TableHead>
+                  <TableHead>Category</TableHead>
+                  <TableHead>Type</TableHead>
+                  <TableHead className="text-right">Amount</TableHead>
+                  <TableHead>Status</TableHead>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+              </TableHeader>
+              <TableBody>
+                {filteredTransactions.map((transaction, index) => (
+                  <TableRow key={`${transaction.type}-${transaction.id}-${index}`}>
+                    <TableCell>{new Date(transaction.date).toLocaleDateString()}</TableCell>
+                    <TableCell>{transaction.description}</TableCell>
+                    <TableCell>{transaction.category}</TableCell>
+                    <TableCell>
+                      <span className={`inline-flex items-center rounded-full px-2 py-1 text-xs font-medium ${
+                        transaction.type === 'Income' 
+                          ? 'bg-green-50 text-green-700' 
+                          : 'bg-red-50 text-red-700'
+                      }`}>
+                        {transaction.type}
+                      </span>
+                    </TableCell>
+                    <TableCell className={`text-right font-medium ${
+                      transaction.type === 'Income' 
+                        ? 'text-green-600' 
+                        : 'text-red-600'
+                    }`}>
+                      {transaction.type === 'Income' ? '+' : '-'}₦{
+                        parseFloat(transaction.amount).toLocaleString()
+                      }
+                    </TableCell>
+                    <TableCell>
+                      <span className="inline-flex items-center rounded-full px-2 py-1 text-xs font-medium bg-blue-50 text-blue-700">
+                        Completed
+                      </span>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          )}
         </CardContent>
       </Card>
     </div>
