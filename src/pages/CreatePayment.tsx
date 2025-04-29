@@ -40,13 +40,13 @@ export default function CreatePayment() {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   // Fetch tenants
-  const { data: tenantsData } = useQuery({
+  const { data: tenantsData, isLoading: isLoadingTenants } = useQuery({
     queryKey: ["tenants"],
     queryFn: apiService.fetchTenants,
   });
 
   // Fetch payment issues
-  const { data: issuesData } = useQuery({
+  const { data: issuesData, isLoading: isLoadingIssues } = useQuery({
     queryKey: ["paymentIssues"],
     queryFn: apiService.fetchOutstandingPayments,
   });
@@ -88,6 +88,51 @@ export default function CreatePayment() {
     }
   }
 
+  // Safe rendering of tenant items with null checks
+  const renderTenantItems = () => {
+    if (!tenantsData || !tenantsData.tenants || !Array.isArray(tenantsData.tenants)) {
+      return <SelectItem value="loading">No tenants available</SelectItem>;
+    }
+
+    return tenantsData.tenants.map((tenant) => {
+      if (!tenant || typeof tenant !== 'object' || tenant.tenant_id === undefined) {
+        return null;
+      }
+      
+      const id = String(tenant.tenant_id);
+      const name = tenant.full_name || "Unknown Tenant";
+      
+      return (
+        <SelectItem key={id} value={id}>
+          {name}
+        </SelectItem>
+      );
+    });
+  };
+
+  // Safe rendering of payment issue items with null checks
+  const renderIssueItems = () => {
+    if (!issuesData || !Array.isArray(issuesData)) {
+      return <SelectItem value="loading">No payment issues available</SelectItem>;
+    }
+
+    return issuesData.map((issue) => {
+      if (!issue || typeof issue !== 'object' || issue.id === undefined) {
+        return null;
+      }
+      
+      const id = String(issue.id);
+      const title = issue.title || "Unknown Issue";
+      const amount = typeof issue.amount === 'number' ? issue.amount : 0;
+      
+      return (
+        <SelectItem key={id} value={id}>
+          {title} - ₦{amount}
+        </SelectItem>
+      );
+    });
+  };
+
   return (
     <div className="container max-w-2xl py-8">
       <Card>
@@ -106,21 +151,15 @@ export default function CreatePayment() {
                     <Select
                       onValueChange={field.onChange}
                       defaultValue={field.value}
+                      disabled={isLoadingTenants}
                     >
                       <FormControl>
                         <SelectTrigger>
-                          <SelectValue placeholder="Select a tenant" />
+                          <SelectValue placeholder={isLoadingTenants ? "Loading tenants..." : "Select a tenant"} />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        {tenantsData?.tenants?.map((tenant: any) => (
-                          <SelectItem
-                            key={tenant.tenant_id}
-                            value={tenant.tenant_id.toString()}
-                          >
-                            {tenant.full_name}
-                          </SelectItem>
-                        ))}
+                        {renderTenantItems()}
                       </SelectContent>
                     </Select>
                     <FormMessage />
@@ -137,21 +176,15 @@ export default function CreatePayment() {
                     <Select
                       onValueChange={field.onChange}
                       defaultValue={field.value}
+                      disabled={isLoadingIssues}
                     >
                       <FormControl>
                         <SelectTrigger>
-                          <SelectValue placeholder="Select a payment issue" />
+                          <SelectValue placeholder={isLoadingIssues ? "Loading payment issues..." : "Select a payment issue"} />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        {issuesData?.map((issue: any) => (
-                          <SelectItem
-                            key={issue.id}
-                            value={issue.id.toString()}
-                          >
-                            {issue.title} - ₦{issue.amount}
-                          </SelectItem>
-                        ))}
+                        {renderIssueItems()}
                       </SelectContent>
                     </Select>
                     <FormMessage />
@@ -215,7 +248,7 @@ export default function CreatePayment() {
                 )}
               />
 
-              <Button type="submit" className="w-full" disabled={isSubmitting}>
+              <Button type="submit" className="w-full" disabled={isSubmitting || isLoadingTenants || isLoadingIssues}>
                 {isSubmitting ? "Creating Payment..." : "Create Payment"}
               </Button>
             </form>
