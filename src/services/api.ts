@@ -1,4 +1,3 @@
-
 import { API_URL } from "@/context/AuthContext";
 
 // Helper function to get the authentication token
@@ -201,6 +200,24 @@ export const apiService = {
       return response.json();
     } catch (error) {
       console.error("API Error in fetchOutstandingPayments:", error);
+      throw error;
+    }
+  },
+  
+  async fetchPaymentIssues() {
+    try {
+      const response = await fetch(`${API_URL}/list-issues/`, {
+        headers: createAuthHeaders(),
+      });
+      
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.detail || `Failed to fetch payment issues (Status: ${response.status})`);
+      }
+      
+      return response.json();
+    } catch (error) {
+      console.error("API Error in fetchPaymentIssues:", error);
       throw error;
     }
   },

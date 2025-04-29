@@ -45,10 +45,10 @@ export default function CreatePayment() {
     queryFn: apiService.fetchTenants,
   });
 
-  // Fetch payment issues
+  // Fetch payment issues using the new endpoint
   const { data: issuesData, isLoading: isLoadingIssues } = useQuery({
     queryKey: ["paymentIssues"],
-    queryFn: apiService.fetchOutstandingPayments,
+    queryFn: apiService.fetchPaymentIssues,
   });
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -123,7 +123,7 @@ export default function CreatePayment() {
       
       const id = String(issue.id);
       const title = issue.title || "Unknown Issue";
-      const amount = typeof issue.amount === 'number' ? issue.amount : 0;
+      const amount = typeof issue.amount === 'number' ? issue.amount.toString() : '0';
       
       return (
         <SelectItem key={id} value={id}>
