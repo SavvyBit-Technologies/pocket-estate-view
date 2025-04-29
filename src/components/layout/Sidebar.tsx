@@ -1,6 +1,6 @@
 
 import { useState } from "react";
-import { Home, DollarSign, Receipt, FileText, Users, Settings, Menu, X, List, LogOut } from "lucide-react";
+import { Home, DollarSign, Receipt, FileText, Users, Settings, Menu, X, List, LogOut, CreditCard } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Link, useLocation } from "react-router-dom";
@@ -11,6 +11,7 @@ const navigation = [
   { name: "Income", href: "/dashboard/income", icon: DollarSign },
   { name: "Expenses", href: "/dashboard/expenses", icon: Receipt },
   { name: "Transactions", href: "/dashboard/transactions", icon: List },
+  { name: "Create Payment", href: "/dashboard/create-payment", icon: CreditCard },
   { name: "Reports", href: "/dashboard/reports", icon: FileText },
   { name: "Tenants", href: "/dashboard/tenants", icon: Users },
   { name: "Settings", href: "/dashboard/settings", icon: Settings },
