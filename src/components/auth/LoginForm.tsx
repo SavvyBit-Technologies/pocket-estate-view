@@ -16,7 +16,7 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { LogIn } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { toast } from "sonner";
 
 const formSchema = z.object({
@@ -25,7 +25,7 @@ const formSchema = z.object({
 });
 
 export function LoginForm() {
-  const { login } = useAuth();
+  const { login, isAuthenticated } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
   const [isLoading, setIsLoading] = useState(false);
@@ -33,6 +33,13 @@ export function LoginForm() {
   
   // Get redirect path if user was redirected from a protected route
   const from = location.state?.from?.pathname || "/dashboard";
+
+  // If user is already authenticated, redirect to dashboard
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate("/dashboard");
+    }
+  }, [isAuthenticated, navigate]);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -43,11 +50,13 @@ export function LoginForm() {
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
+    console.log("Login attempt with:", values.username);
     setIsLoading(true);
     setLoginError("");
     
     try {
       await login(values.username, values.password);
+      console.log("Login successful, redirecting to:", from);
       navigate(from);
     } catch (error) {
       console.error("Login error:", error);

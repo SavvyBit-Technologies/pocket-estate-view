@@ -21,23 +21,27 @@ const Dashboard = () => {
   const { data: summaryData, isLoading: loadingSummary } = useQuery({
     queryKey: ["monthly-summary", currentMonth, currentYear],
     queryFn: () => apiService.fetchMonthlySummary(currentMonth, currentYear),
+    retry: 1,
   });
   
   // Fetch outstanding payments
   const { data: outstandingPayments } = useQuery({
     queryKey: ["outstanding-payments"],
     queryFn: apiService.fetchOutstandingPayments,
+    retry: 1,
   });
 
   // Fetch transactions history for charts
   const { data: expenses } = useQuery({
     queryKey: ["expenses"],
     queryFn: apiService.fetchExpenses,
+    retry: 1,
   });
   
   const { data: payments } = useQuery({
     queryKey: ["payments"],
     queryFn: apiService.fetchPayments,
+    retry: 1,
   });
 
   // Prepare chart data based on API responses
@@ -87,6 +91,12 @@ const Dashboard = () => {
     value: categoriesMap[name]
   }));
 
+  // Debug the data
+  useEffect(() => {
+    console.log("Summary Data:", summaryData);
+    console.log("Outstanding Payments:", outstandingPayments);
+  }, [summaryData, outstandingPayments]);
+
   return (
     <div className="space-y-6 p-6">
       {/* Welcome message */}
@@ -106,6 +116,7 @@ const Dashboard = () => {
         </div>
       </div>
 
+      {/* Summary Cards */}
       <div className="grid gap-4 md:grid-cols-3">
         <SummaryCard 
           title="Total Income" 

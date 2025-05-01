@@ -57,15 +57,19 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     if (token && userData) {
       try {
         const parsedUser = JSON.parse(userData);
+        console.log("Restored auth state from localStorage:", { token, user: parsedUser });
         setAuthState({
           isAuthenticated: true,
           user: parsedUser,
           token: token
         });
       } catch (error) {
+        console.error("Error parsing user data from localStorage:", error);
         localStorage.removeItem("token");
         localStorage.removeItem("user");
       }
+    } else {
+      console.log("No authentication found in localStorage");
     }
   }, []);
 
@@ -85,6 +89,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       }
 
       const data = await response.json();
+      console.log("Login success:", data);
       
       // Save token and user data
       localStorage.setItem("token", data.token);
@@ -159,6 +164,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     });
     navigate("/");
   };
+
+  // Debug authentication state
+  useEffect(() => {
+    console.log("Auth state updated:", authState);
+  }, [authState]);
 
   return (
     <AuthContext.Provider

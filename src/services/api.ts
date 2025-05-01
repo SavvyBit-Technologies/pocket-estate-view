@@ -1,4 +1,3 @@
-
 import { API_URL } from "@/context/AuthContext";
 
 // Helper function to get the authentication token
@@ -9,6 +8,9 @@ const getToken = (): string | null => {
 // Helper function to create headers with authentication
 const createAuthHeaders = (): HeadersInit => {
   const token = getToken();
+  if (!token) {
+    console.warn("No auth token found. User might need to login.");
+  }
   return {
     "Content-Type": "application/json",
     ...(token ? { "Authorization": `Token ${token}` } : {}),
@@ -59,6 +61,11 @@ export const apiService = {
   // Payment-related endpoints
   async fetchPayments() {
     try {
+      const token = getToken();
+      if (!token) {
+        throw new Error("Authentication required");
+      }
+      
       const response = await fetch(`${API_URL}/payments/`, {
         headers: createAuthHeaders(),
       });
@@ -71,7 +78,7 @@ export const apiService = {
       return response.json();
     } catch (error) {
       console.error("API Error in fetchPayments:", error);
-      throw error;
+      return [];
     }
   },
   
@@ -126,6 +133,11 @@ export const apiService = {
   // Expense-related endpoints
   async fetchExpenses() {
     try {
+      const token = getToken();
+      if (!token) {
+        throw new Error("Authentication required");
+      }
+      
       const response = await fetch(`${API_URL}/list-expenses/`, {
         headers: createAuthHeaders(),
       });
@@ -138,7 +150,7 @@ export const apiService = {
       return response.json();
     } catch (error) {
       console.error("API Error in fetchExpenses:", error);
-      throw error;
+      return [];
     }
   },
   
@@ -165,6 +177,11 @@ export const apiService = {
   // Dashboard data
   async fetchMonthlySummary(month?: number, year?: number) {
     try {
+      const token = getToken();
+      if (!token) {
+        throw new Error("Authentication required");
+      }
+      
       let url = `${API_URL}/monthly-summary/`;
       
       if (month && year) {
@@ -183,12 +200,20 @@ export const apiService = {
       return response.json();
     } catch (error) {
       console.error("API Error in fetchMonthlySummary:", error);
-      throw error;
+      return {
+        total_payments: 0,
+        total_expenses: 0
+      };
     }
   },
   
   async fetchOutstandingPayments() {
     try {
+      const token = getToken();
+      if (!token) {
+        throw new Error("Authentication required");
+      }
+      
       const response = await fetch(`${API_URL}/list-due-payment/`, {
         headers: createAuthHeaders(),
       });
@@ -201,7 +226,7 @@ export const apiService = {
       return response.json();
     } catch (error) {
       console.error("API Error in fetchOutstandingPayments:", error);
-      throw error;
+      return [];
     }
   },
   
