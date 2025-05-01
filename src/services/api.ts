@@ -216,6 +216,34 @@ export const apiService = {
     }
   },
   
+  async fetchTotalSummary() {
+    try {
+      const token = getToken();
+      if (!token) {
+        throw new Error("Authentication required");
+      }
+      
+      const response = await fetch(`${API_URL}/total-summary/`, {
+        headers: createAuthHeaders(),
+      });
+      
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.detail || `Failed to fetch total summary (Status: ${response.status})`);
+      }
+      
+      const data = await response.json();
+      console.log("Total summary data received:", data);
+      return data;
+    } catch (error) {
+      console.error("API Error in fetchTotalSummary:", error);
+      return {
+        total_payments: 0,
+        total_expenses: 0
+      };
+    }
+  },
+  
   async fetchOutstandingPayments() {
     try {
       const token = getToken();

@@ -30,6 +30,19 @@ const Dashboard = () => {
     enabled: isAuthenticated // Only run query if authenticated
   });
   
+  // Fetch total summary data for overall statistics
+  const { data: totalSummaryData, isLoading: loadingTotalSummary } = useQuery({
+    queryKey: ["total-summary"],
+    queryFn: () => apiService.fetchTotalSummary(),
+    retry: 1,
+    enabled: isAuthenticated // Only run query if authenticated
+  });
+
+  // Calculate net balance
+  const netBalance = totalSummaryData ? 
+    (parseFloat(totalSummaryData.total_payments || "0") - parseFloat(totalSummaryData.total_expenses || "0")) : 
+    (parseFloat(summaryData?.total_payments || "0") - parseFloat(summaryData?.total_expenses || "0"));
+  
   // Fetch outstanding payments
   const { data: outstandingPayments } = useQuery({
     queryKey: ["outstanding-payments"],
@@ -103,8 +116,9 @@ const Dashboard = () => {
   // Debug the data
   useEffect(() => {
     console.log("Summary Data:", summaryData);
+    console.log("Total Summary Data:", totalSummaryData);
     console.log("Outstanding Payments:", outstandingPayments);
-  }, [summaryData, outstandingPayments]);
+  }, [summaryData, totalSummaryData, outstandingPayments]);
 
   return (
     <div className="space-y-6 p-6">
@@ -129,19 +143,17 @@ const Dashboard = () => {
       <div className="grid gap-4 md:grid-cols-3">
         <SummaryCard 
           title="Total Income" 
-          amount={summaryData?.total_payments?.toLocaleString() || "0"} 
+          amount={(totalSummaryData?.total_payments || summaryData?.total_payments || "0").toLocaleString()} 
           className="bg-green-50"
         />
         <SummaryCard 
           title="Total Expenses" 
-          amount={summaryData?.total_expenses?.toLocaleString() || "0"} 
+          amount={(totalSummaryData?.total_expenses || summaryData?.total_expenses || "0").toLocaleString()} 
           className="bg-red-50"
         />
         <SummaryCard 
           title="Net Balance" 
-          amount={(
-            (parseFloat(summaryData?.total_payments || "0") - parseFloat(summaryData?.total_expenses || "0"))
-          ).toLocaleString()} 
+          amount={netBalance.toLocaleString()} 
           className="bg-blue-50"
         />
       </div>
