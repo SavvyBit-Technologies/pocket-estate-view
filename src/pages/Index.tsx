@@ -13,15 +13,21 @@ import { useAuth } from "@/context/AuthContext";
 const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
 
 const Dashboard = () => {
-  const { user } = useAuth();
+  const { user, isAuthenticated } = useAuth();
   const [currentMonth, setCurrentMonth] = useState<number>(new Date().getMonth() + 1);
   const [currentYear, setCurrentYear] = useState<number>(new Date().getFullYear());
+  
+  // Check authentication status for debugging
+  useEffect(() => {
+    console.log("Authentication state:", isAuthenticated);
+  }, [isAuthenticated]);
   
   // Fetch monthly summary data
   const { data: summaryData, isLoading: loadingSummary } = useQuery({
     queryKey: ["monthly-summary", currentMonth, currentYear],
     queryFn: () => apiService.fetchMonthlySummary(currentMonth, currentYear),
     retry: 1,
+    enabled: isAuthenticated // Only run query if authenticated
   });
   
   // Fetch outstanding payments
@@ -29,6 +35,7 @@ const Dashboard = () => {
     queryKey: ["outstanding-payments"],
     queryFn: apiService.fetchOutstandingPayments,
     retry: 1,
+    enabled: isAuthenticated // Only run query if authenticated
   });
 
   // Fetch transactions history for charts
@@ -36,12 +43,14 @@ const Dashboard = () => {
     queryKey: ["expenses"],
     queryFn: apiService.fetchExpenses,
     retry: 1,
+    enabled: isAuthenticated // Only run query if authenticated
   });
   
   const { data: payments } = useQuery({
     queryKey: ["payments"],
     queryFn: apiService.fetchPayments,
     retry: 1,
+    enabled: isAuthenticated // Only run query if authenticated
   });
 
   // Prepare chart data based on API responses
@@ -104,7 +113,7 @@ const Dashboard = () => {
         <div>
           <h1 className="text-2xl font-semibold">Dashboard</h1>
           <p className="text-muted-foreground">
-            Welcome back, {user?.username}! {user?.estate && `Managing ${user.estate}`}
+            Welcome back, {user?.username || "User"}! {user?.estate && `Managing ${user.estate}`}
           </p>
         </div>
         <div className="relative">
@@ -131,7 +140,7 @@ const Dashboard = () => {
         <SummaryCard 
           title="Net Balance" 
           amount={(
-            (summaryData?.total_payments || 0) - (summaryData?.total_expenses || 0)
+            (parseFloat(summaryData?.total_payments || "0") - parseFloat(summaryData?.total_expenses || "0"))
           ).toLocaleString()} 
           className="bg-blue-50"
         />
@@ -223,7 +232,7 @@ const Dashboard = () => {
                       {payment.tenant_name}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-right font-bold text-red-600">
-                      ₦{payment.amount_due.toLocaleString()}
+                      ₦{parseFloat(payment.amount_due).toLocaleString()}
                     </td>
                   </tr>
                 ))}

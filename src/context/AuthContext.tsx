@@ -162,6 +162,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       user: null,
       token: null,
     });
+    toast.info("You have been logged out");
     navigate("/");
   };
 

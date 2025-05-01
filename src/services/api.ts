@@ -22,6 +22,11 @@ export const apiService = {
   // Tenant-related endpoints
   async fetchTenants() {
     try {
+      const token = getToken();
+      if (!token) {
+        throw new Error("Authentication required");
+      }
+      
       const response = await fetch(`${API_URL}/tenants/`, {
         headers: createAuthHeaders(),
       });
@@ -197,12 +202,16 @@ export const apiService = {
         throw new Error(errorData.detail || `Failed to fetch monthly summary (Status: ${response.status})`);
       }
       
-      return response.json();
+      const data = await response.json();
+      console.log("Monthly summary data received:", data);
+      return data;
     } catch (error) {
       console.error("API Error in fetchMonthlySummary:", error);
       return {
         total_payments: 0,
-        total_expenses: 0
+        total_expenses: 0,
+        month: new Date().toLocaleString('default', { month: 'long' }),
+        year: new Date().getFullYear()
       };
     }
   },

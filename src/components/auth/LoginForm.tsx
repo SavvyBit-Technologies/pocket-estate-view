@@ -21,7 +21,7 @@ import { toast } from "sonner";
 
 const formSchema = z.object({
   username: z.string().min(1, { message: "Username is required" }),
-  password: z.string().min(4, { message: "Password must be at least 6 characters" }),
+  password: z.string().min(4, { message: "Password must be at least 4 characters" }),
 });
 
 export function LoginForm() {
@@ -37,6 +37,7 @@ export function LoginForm() {
   // If user is already authenticated, redirect to dashboard
   useEffect(() => {
     if (isAuthenticated) {
+      console.log("User is already authenticated, redirecting to dashboard");
       navigate("/dashboard");
     }
   }, [isAuthenticated, navigate]);

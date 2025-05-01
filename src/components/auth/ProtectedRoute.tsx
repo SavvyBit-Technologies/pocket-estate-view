@@ -4,12 +4,12 @@ import { useAuth } from "@/context/AuthContext";
 import { useEffect } from "react";
 
 export function ProtectedRoute({ children }: { children: React.ReactNode }) {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, token } = useAuth();
   const location = useLocation();
 
   useEffect(() => {
-    console.log("Authentication state:", isAuthenticated);
-  }, [isAuthenticated]);
+    console.log("Authentication state:", isAuthenticated, "Token exists:", !!token);
+  }, [isAuthenticated, token]);
 
   if (!isAuthenticated) {
     // Redirect to login page, but save the location they were trying to access
