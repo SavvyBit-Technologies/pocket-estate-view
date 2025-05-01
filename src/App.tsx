@@ -1,3 +1,4 @@
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -19,6 +20,7 @@ import { Transactions } from "./pages/Transactions";
 import { AuthProvider } from "./context/AuthContext";
 import { ProtectedRoute } from "./components/auth/ProtectedRoute";
 import CreatePayment from "./pages/CreatePayment";
+import PaymentIssues from "./pages/PaymentIssues";
 
 const queryClient = new QueryClient();
 
@@ -54,6 +56,7 @@ const App = () => (
             <Route path="/dashboard/reports" element={<DashboardLayout><Reports /></DashboardLayout>} />
             <Route path="/dashboard/settings" element={<DashboardLayout><Settings /></DashboardLayout>} />
             <Route path="/dashboard/create-payment" element={<DashboardLayout><CreatePayment /></DashboardLayout>} />
+            <Route path="/dashboard/payment-issues" element={<DashboardLayout><PaymentIssues /></DashboardLayout>} />
             
             <Route path="*" element={<NotFound />} />
           </Routes>

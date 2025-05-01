@@ -1,3 +1,4 @@
+
 import { API_URL } from "@/context/AuthContext";
 
 // Helper function to get the authentication token
@@ -218,6 +219,71 @@ export const apiService = {
       return response.json();
     } catch (error) {
       console.error("API Error in fetchPaymentIssues:", error);
+      throw error;
+    }
+  },
+  
+  // New function to resolve payment issues
+  async resolvePaymentIssue(issueId: number) {
+    try {
+      const response = await fetch(`${API_URL}/resolve-issue/${issueId}/`, {
+        method: "PATCH",
+        headers: createAuthHeaders(),
+      });
+      
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.detail || `Failed to resolve payment issue (Status: ${response.status})`);
+      }
+      
+      return response.json();
+    } catch (error) {
+      console.error("API Error in resolvePaymentIssue:", error);
+      throw error;
+    }
+  },
+  
+  // Auth related endpoints
+  async requestPasswordResetOTP(email: string) {
+    try {
+      const response = await fetch(`${API_URL}/request-password-reset-otp/`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email }),
+      });
+      
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.detail || `Failed to request password reset (Status: ${response.status})`);
+      }
+      
+      return response.json();
+    } catch (error) {
+      console.error("API Error in requestPasswordResetOTP:", error);
+      throw error;
+    }
+  },
+  
+  async changePassword(data: { email: string; otp: string; new_password: string }) {
+    try {
+      const response = await fetch(`${API_URL}/change-password/`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+      
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.detail || `Failed to change password (Status: ${response.status})`);
+      }
+      
+      return response.json();
+    } catch (error) {
+      console.error("API Error in changePassword:", error);
       throw error;
     }
   },
