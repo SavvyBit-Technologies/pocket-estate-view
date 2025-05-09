@@ -1,16 +1,7 @@
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Calendar } from "@/components/ui/calendar";
-import { FileSpreadsheet, Download, FileDown, PieChart as PieChartIcon, BarChart as BarChartIcon } from "lucide-react";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { PieChart as PieChartIcon, BarChart as BarChartIcon } from "lucide-react";
 import { toast } from "sonner";
 import {
   BarChart,
@@ -31,15 +22,12 @@ import { useQuery } from "@tanstack/react-query";
 import { apiService } from "@/services/api";
 import { useAuth } from "@/context/AuthContext";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { ChartContainer, ChartTooltipContent, ChartTooltip } from "@/components/ui/chart";
 
 // Custom colors for charts
 const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#8884d8", "#82ca9d"];
 
 export function Reports() {
   const { isAuthenticated } = useAuth();
-  const [date, setDate] = useState<Date | undefined>(new Date());
-  const [category, setCategory] = useState<string>("all");
   const [reportType, setReportType] = useState<string>("overview");
 
   // Fetch total summary data for overall financial metrics
@@ -187,24 +175,10 @@ export function Reports() {
   const expenseCategoryData = prepareExpenseCategoryData();
   const analysis = financialAnalysis();
 
-  const handleExport = (format: 'excel' | 'csv') => {
-    toast.success(`Preparing ${format.toUpperCase()} financial report export`);
-  };
-
   return (
     <div className="space-y-6 p-6">
       <div className="flex flex-col md:flex-row gap-4 items-start md:items-center justify-between">
         <h1 className="text-2xl font-semibold">Financial Reports & Analytics</h1>
-        <div className="flex gap-2">
-          <Button onClick={() => handleExport('excel')} variant="outline">
-            <FileSpreadsheet className="mr-2 h-4 w-4" />
-            Export to Excel
-          </Button>
-          <Button onClick={() => handleExport('csv')} variant="outline">
-            <FileDown className="mr-2 h-4 w-4" />
-            Export CSV
-          </Button>
-        </div>
       </div>
 
       {/* Financial Summary Cards */}
@@ -250,51 +224,6 @@ export function Reports() {
       )}
 
       <div className="grid gap-6 md:grid-cols-2">
-        <Card>
-          <CardHeader>
-            <CardTitle>Report Filters</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="space-y-2">
-              <label className="text-sm font-medium">Report Type</label>
-              <Select value={reportType} onValueChange={setReportType}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Select report type" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="overview">Financial Overview</SelectItem>
-                  <SelectItem value="income">Income Analysis</SelectItem>
-                  <SelectItem value="expense">Expense Analysis</SelectItem>
-                  <SelectItem value="profit">Profit & Loss</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-            <div className="space-y-2">
-              <label className="text-sm font-medium">Select Date Range</label>
-              <Calendar
-                mode="single"
-                selected={date}
-                onSelect={setDate}
-                className="rounded-md border"
-              />
-            </div>
-            <div className="space-y-2">
-              <label className="text-sm font-medium">Category</label>
-              <Select value={category} onValueChange={setCategory}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Select category" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">All Categories</SelectItem>
-                  <SelectItem value="rent">Rent</SelectItem>
-                  <SelectItem value="utilities">Utilities</SelectItem>
-                  <SelectItem value="maintenance">Maintenance</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-          </CardContent>
-        </Card>
-
         <Card>
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle>Profit & Loss Analysis</CardTitle>
@@ -345,9 +274,7 @@ export function Reports() {
             )}
           </CardContent>
         </Card>
-      </div>
 
-      <div className="grid gap-6 md:grid-cols-2">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle>Monthly Trends</CardTitle>
@@ -383,7 +310,9 @@ export function Reports() {
             )}
           </CardContent>
         </Card>
+      </div>
 
+      <div className="grid gap-6 md:grid-cols-2">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle>Revenue Sources</CardTitle>
@@ -419,6 +348,46 @@ export function Reports() {
             ) : (
               <div className="text-center p-8 text-muted-foreground">
                 No revenue category data available
+              </div>
+            )}
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between pb-2">
+            <CardTitle>Expense Categories</CardTitle>
+            <PieChartIcon className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            {loadingExpenses ? (
+              <div className="flex justify-center items-center h-[300px]">
+                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-green-500"></div>
+              </div>
+            ) : expenseCategoryData.length > 0 ? (
+              <div className="h-[300px]">
+                <ResponsiveContainer width="100%" height="100%">
+                  <PieChart>
+                    <Pie
+                      data={expenseCategoryData}
+                      cx="50%"
+                      cy="50%"
+                      labelLine={false}
+                      label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
+                      outerRadius={80}
+                      fill="#8884d8"
+                      dataKey="value"
+                    >
+                      {expenseCategoryData.map((_, index) => (
+                        <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                      ))}
+                    </Pie>
+                    <Tooltip formatter={(value) => `₦${value.toLocaleString()}`} />
+                  </PieChart>
+                </ResponsiveContainer>
+              </div>
+            ) : (
+              <div className="text-center p-8 text-muted-foreground">
+                No expense category data available
               </div>
             )}
           </CardContent>
