@@ -67,7 +67,7 @@ export function HomePage() {
       </section>
 
       {/* Trust indicators section */}
-      <section className="py-12 bg-white border-y border-gray-100">
+      {/* <section className="py-12 bg-white border-y border-gray-100">
         <div className="container mx-auto px-4">
           <div className="text-center mb-8">
             <p className="text-gray-600 font-medium">Trusted by leading property management companies</p>
@@ -79,7 +79,7 @@ export function HomePage() {
             <img src="https://images.unsplash.com/photo-1641194298727-fa6e5bde6e4e" alt="Company logo" className="h-8 object-contain" />
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* Features section with modern cards */}
       <section id="features" className="py-20 md:py-32 bg-gray-50">
