@@ -44,7 +44,7 @@ export function HomePage() {
               </div>
             </div>
             <div className="hidden lg:block relative">
-              <div className="relative z-10 rounded-2xl overflow-hidden shadow-2xl transform hover:scale-105 transition-transform duration-300">
+              <div className="relative rounded-2xl overflow-hidden shadow-2xl transform hover:scale-105 transition-transform duration-300">
                 <img 
                   src="https://images.unsplash.com/photo-1560520653-9e0e4c89eb11" 
                   alt="Modern real estate dashboard" 
@@ -54,12 +54,12 @@ export function HomePage() {
               </div>
               {/* Floating stats cards */}
               <div className="absolute -bottom-6 -left-6 bg-white rounded-lg shadow-xl p-4 transform hover:-translate-y-1 transition-transform duration-300">
-                <p className="font-semibold text-2xl text-green-600">$2.5M+</p>
-                <p className="text-sm text-gray-600">Portfolio Value Managed</p>
+                <p className="font-semibold text-2xl text-green-600">100%</p>
+                <p className="text-sm text-gray-600">Client Satisfaction</p>
               </div>
               <div className="absolute -top-6 -right-6 bg-white rounded-lg shadow-xl p-4 transform hover:-translate-y-1 transition-transform duration-300">
-                <p className="font-semibold text-2xl text-blue-600">98%</p>
-                <p className="text-sm text-gray-600">Collection Rate</p>
+                <p className="font-semibold text-2xl text-blue-600">24/7</p>
+                <p className="text-sm text-gray-600">Client Support</p>
               </div>
             </div>
           </div>
@@ -107,7 +107,7 @@ export function HomePage() {
                 <ul className="space-y-2">
                   <li className="flex items-center gap-2">
                     <Check className="h-5 w-5 text-green-500" />
-                    <span>Automated rent collection reminders</span>
+                    <span>Record payments from each occupant</span>
                   </li>
                   <li className="flex items-center gap-2">
                     <Check className="h-5 w-5 text-green-500" />
@@ -115,7 +115,7 @@ export function HomePage() {
                   </li>
                   <li className="flex items-center gap-2">
                     <Check className="h-5 w-5 text-green-500" />
-                    <span>Receipt generation</span>
+                    <span>Assign and record fees to be paid</span>
                   </li>
                 </ul>
               </CardContent>
@@ -135,11 +135,11 @@ export function HomePage() {
                   </li>
                   <li className="flex items-center gap-2">
                     <Check className="h-5 w-5 text-green-500" />
-                    <span>Receipt scanning and storage</span>
+                    <span>Record all property-related expenses</span>
                   </li>
                   <li className="flex items-center gap-2">
                     <Check className="h-5 w-5 text-green-500" />
-                    <span>Vendor management</span>
+                    <span>View total expenses for any month</span>
                   </li>
                 </ul>
               </CardContent>
@@ -163,7 +163,7 @@ export function HomePage() {
                   </li>
                   <li className="flex items-center gap-2">
                     <Check className="h-5 w-5 text-green-500" />
-                    <span>Tax preparation documents</span>
+                    <span>Interactive charts for insights</span>
                   </li>
                 </ul>
               </CardContent>
@@ -179,15 +179,15 @@ export function HomePage() {
                 <ul className="space-y-2">
                   <li className="flex items-center gap-2">
                     <Check className="h-5 w-5 text-green-500" />
-                    <span>Digital lease storage</span>
+                    <span>Add and manage occupant records</span>
                   </li>
                   <li className="flex items-center gap-2">
                     <Check className="h-5 w-5 text-green-500" />
-                    <span>Payment history</span>
+                    <span>Track who has paid or is yet to pay</span>
                   </li>
                   <li className="flex items-center gap-2">
                     <Check className="h-5 w-5 text-green-500" />
-                    <span>Communication logs</span>
+                    <span>Monitor outstanding balances</span>
                   </li>
                 </ul>
               </CardContent>
@@ -197,7 +197,7 @@ export function HomePage() {
               <CardHeader>
                 <Building2 className="h-10 w-10 text-teal-500 mb-2" />
                 <CardTitle>Property Portfolio</CardTitle>
-                <CardDescription>Manage multiple properties with ease from a centralized dashboard.</CardDescription>
+                <CardDescription>Manage  properties with ease from a centralized dashboard.</CardDescription>
               </CardHeader>
               <CardContent>
                 <ul className="space-y-2">
@@ -277,7 +277,7 @@ export function HomePage() {
               </div>
               <div className="mt-6">
                 <h3 className="text-xl font-semibold mb-3">Tenant Management</h3>
-                <p className="text-gray-600">Streamlined tenant communication, maintenance requests, and payment processing in one place.</p>
+                <p className="text-gray-600">Manage occupants, monitor payments, and keep all records organized from a single dashboard.</p>
               </div>
             </div>
             
@@ -297,130 +297,152 @@ export function HomePage() {
       </section>
       
       {/* Pricing section with modern design */}
-      <section id="pricing" className="py-20 md:py-32 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-gray-50 to-white" />
-        <div className="container mx-auto px-4 relative">
-          <div className="text-center max-w-3xl mx-auto mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text text-transparent">
-              Transparent Pricing for Every Need
-            </h2>
-            <p className="text-lg text-gray-600">
-              Choose the plan that works best for your property management needs.
-            </p>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-            {/* Updated pricing cards with modern design */}
-            <Card className="border shadow-lg relative overflow-hidden transform hover:-translate-y-1 transition-all duration-300">
-              <CardHeader>
-                <CardTitle>Starter</CardTitle>
-                <div className="text-3xl font-bold">$19<span className="text-lg font-normal text-gray-500">/month</span></div>
-                <CardDescription>Perfect for individual property owners</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <ul className="space-y-3 mb-6">
-                  <li className="flex items-center gap-2">
-                    <Check className="h-5 w-5 text-green-500" />
-                    <span>Up to 5 properties</span>
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <Check className="h-5 w-5 text-green-500" />
-                    <span>Income & expense tracking</span>
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <Check className="h-5 w-5 text-green-500" />
-                    <span>Basic reporting</span>
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <Check className="h-5 w-5 text-green-500" />
-                    <span>Email support</span>
-                  </li>
-                </ul>
-              </CardContent>
-              <CardFooter>
-                <Button variant="outline" className="w-full">Start Free Trial</Button>
-              </CardFooter>
-            </Card>
-            
-            <Card className="border-2 border-green-500 shadow-xl relative overflow-hidden transform hover:-translate-y-2 transition-all duration-300">
-              <div className="absolute top-0 right-0 bg-gradient-to-r from-green-500 to-green-600 text-white px-4 py-1 text-sm font-medium rounded-bl-lg">
-                POPULAR
-              </div>
-              <CardHeader>
-                <CardTitle>Professional</CardTitle>
-                <div className="text-3xl font-bold">$49<span className="text-lg font-normal text-gray-500">/month</span></div>
-                <CardDescription>Ideal for small to medium portfolios</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <ul className="space-y-3 mb-6">
-                  <li className="flex items-center gap-2">
-                    <Check className="h-5 w-5 text-green-500" />
-                    <span>Up to 25 properties</span>
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <Check className="h-5 w-5 text-green-500" />
-                    <span>All Starter features</span>
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <Check className="h-5 w-5 text-green-500" />
-                    <span>Advanced reporting</span>
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <Check className="h-5 w-5 text-green-500" />
-                    <span>Tenant portal access</span>
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <Check className="h-5 w-5 text-green-500" />
-                    <span>Priority support</span>
-                  </li>
-                </ul>
-              </CardContent>
-              <CardFooter>
-                <Button className="w-full">Start Free Trial</Button>
-              </CardFooter>
-            </Card>
-            
-            <Card className="border shadow-lg relative overflow-hidden transform hover:-translate-y-1 transition-all duration-300">
-              <CardHeader>
-                <CardTitle>Enterprise</CardTitle>
-                <div className="text-3xl font-bold">$99<span className="text-lg font-normal text-gray-500">/month</span></div>
-                <CardDescription>For large property management companies</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <ul className="space-y-3 mb-6">
-                  <li className="flex items-center gap-2">
-                    <Check className="h-5 w-5 text-green-500" />
-                    <span>Unlimited properties</span>
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <Check className="h-5 w-5 text-green-500" />
-                    <span>All Professional features</span>
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <Check className="h-5 w-5 text-green-500" />
-                    <span>Custom reporting</span>
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <Check className="h-5 w-5 text-green-500" />
-                    <span>API access</span>
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <Check className="h-5 w-5 text-green-500" />
-                    <span>Dedicated account manager</span>
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <Check className="h-5 w-5 text-green-500" />
-                    <span>24/7 phone & email support</span>
-                  </li>
-                </ul>
-              </CardContent>
-              <CardFooter>
-                <Button variant="outline" className="w-full">Contact Sales</Button>
-              </CardFooter>
-            </Card>
-          </div>
+<section id="pricing" className="py-20 md:py-32 relative overflow-hidden">
+  <div className="absolute inset-0 bg-gradient-to-br from-gray-50 to-white" />
+  <div className="container mx-auto px-4 relative">
+    <div className="text-center max-w-3xl mx-auto mb-16">
+      <h2 className="text-3xl md:text-4xl font-bold mb-4 bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text text-transparent">
+        Simple Pricing for Estate Management
+      </h2>
+      <p className="text-lg text-gray-600">
+        Choose the plan that fits your estate size and management needs.
+      </p>
+    </div>
+    
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+      {/* Basic Plan */}
+      <Card className="border shadow-lg relative overflow-hidden transform hover:-translate-y-1 transition-all duration-300">
+        <CardHeader>
+          <CardTitle>Basic</CardTitle>
+          <div className="text-3xl font-bold">$25<span className="text-lg font-normal text-gray-500">/month</span></div>
+          <CardDescription>Perfect for small residential estates</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <ul className="space-y-3 mb-6">
+            <li className="flex items-center gap-2">
+              <Check className="h-5 w-5 text-green-500" />
+              <span>Up to 50 occupants</span>
+            </li>
+            <li className="flex items-center gap-2">
+              <Check className="h-5 w-5 text-green-500" />
+              <span>Fee assignment & tracking</span>
+            </li>
+            <li className="flex items-center gap-2">
+              <Check className="h-5 w-5 text-green-500" />
+              <span>Payment status monitoring</span>
+            </li>
+            <li className="flex items-center gap-2">
+              <Check className="h-5 w-5 text-green-500" />
+              <span>Basic income/expense tracking</span>
+            </li>
+            <li className="flex items-center gap-2">
+              <Check className="h-5 w-5 text-green-500" />
+              <span>Monthly financial summaries</span>
+            </li>
+            <li className="flex items-center gap-2">
+              <Check className="h-5 w-5 text-green-500" />
+              <span>Email support</span>
+            </li>
+          </ul>
+        </CardContent>
+        <CardFooter>
+          <Button variant="outline" className="w-full">Start Now</Button>
+        </CardFooter>
+      </Card>
+      
+      {/* Professional Plan - Popular */}
+      <Card className="border-2 border-green-500 shadow-xl relative overflow-hidden transform hover:-translate-y-2 transition-all duration-300">
+        <div className="absolute top-0 right-0 bg-gradient-to-r from-green-500 to-green-600 text-white px-4 py-1 text-sm font-medium rounded-bl-lg">
+          POPULAR
         </div>
-      </section>
+        <CardHeader>
+          <CardTitle>Professional</CardTitle>
+          <div className="text-3xl font-bold">$45<span className="text-lg font-normal text-gray-500">/month</span></div>
+          <CardDescription>Ideal for medium to large estates</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <ul className="space-y-3 mb-6">
+            <li className="flex items-center gap-2">
+              <Check className="h-5 w-5 text-green-500" />
+              <span>Up to 200 occupants</span>
+            </li>
+            <li className="flex items-center gap-2">
+              <Check className="h-5 w-5 text-green-500" />
+              <span>All Basic features</span>
+            </li>
+            <li className="flex items-center gap-2">
+              <Check className="h-5 w-5 text-green-500" />
+              <span>Interactive analytics charts</span>
+            </li>
+            <li className="flex items-center gap-2">
+              <Check className="h-5 w-5 text-green-500" />
+              <span>Income source & expense breakdown</span>
+            </li>
+            <li className="flex items-center gap-2">
+              <Check className="h-5 w-5 text-green-500" />
+              <span>Monthly income vs expenses charts</span>
+            </li>
+            <li className="flex items-center gap-2">
+              <Check className="h-5 w-5 text-green-500" />
+              <span>Automated payment reminders</span>
+            </li>
+            <li className="flex items-center gap-2">
+              <Check className="h-5 w-5 text-green-500" />
+              <span>Priority support</span>
+            </li>
+          </ul>
+        </CardContent>
+        <CardFooter>
+          <Button className="w-full">Start Now</Button>
+        </CardFooter>
+      </Card>
+      
+      {/* Enterprise Plan */}
+      <Card className="border shadow-lg relative overflow-hidden transform hover:-translate-y-1 transition-all duration-300">
+        <CardHeader>
+          <CardTitle>Enterprise</CardTitle>
+          <div className="text-3xl font-bold">$85<span className="text-lg font-normal text-gray-500">/month</span></div>
+          <CardDescription>For large estates & property companies</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <ul className="space-y-3 mb-6">
+            <li className="flex items-center gap-2">
+              <Check className="h-5 w-5 text-green-500" />
+              <span>Unlimited occupants</span>
+            </li>
+            <li className="flex items-center gap-2">
+              <Check className="h-5 w-5 text-green-500" />
+              <span>All Professional features</span>
+            </li>
+            <li className="flex items-center gap-2">
+              <Check className="h-5 w-5 text-green-500" />
+              <span>Advanced financial reporting</span>
+            </li>
+            <li className="flex items-center gap-2">
+              <Check className="h-5 w-5 text-green-500" />
+              <span>Custom analytics dashboards</span>
+            </li>
+            <li className="flex items-center gap-2">
+              <Check className="h-5 w-5 text-green-500" />
+              <span>Multi-admin access</span>
+            </li>
+            <li className="flex items-center gap-2">
+              <Check className="h-5 w-5 text-green-500" />
+              <span>Data export & API access</span>
+            </li>
+            <li className="flex items-center gap-2">
+              <Check className="h-5 w-5 text-green-500" />
+              <span>24/7 phone & email support</span>
+            </li>
+          </ul>
+        </CardContent>
+        <CardFooter>
+          <Button variant="outline" className="w-full">Contact Sales</Button>
+        </CardFooter>
+      </Card>
+    </div>
+  </div>
+</section>
       
       {/* ROI Calculator Section */}
       <section className="py-20 bg-white">
@@ -430,7 +452,7 @@ export function HomePage() {
               <div>
                 <h2 className="text-3xl md:text-4xl font-bold mb-6">See Your Potential Returns</h2>
                 <p className="text-lg text-gray-600 mb-8">
-                  Our platform helps property managers save an average of 15 hours per week and increase revenue by 23%
+                 Our platform helps estate managers cut down hours of manual record-keeping each week while giving them clear insights into payments, expenses, and outstanding balances.
                 </p>
                 <div className="space-y-4">
                   <div className="flex items-start gap-3">
@@ -438,8 +460,8 @@ export function HomePage() {
                       <Check className="h-5 w-5 text-green-500" />
                     </div>
                     <div>
-                      <h4 className="font-semibold mb-1">Automated Rent Collection</h4>
-                      <p className="text-gray-600">Reduce late payments by up to 85%</p>
+                      <h4 className="font-semibold mb-1">Fee Management & Tracking</h4>
+                      <p className="text-gray-600">Track occupant payments and outstanding fees efficiently</p>
                     </div>
                   </div>
                   <div className="flex items-start gap-3">
@@ -456,8 +478,8 @@ export function HomePage() {
                       <Check className="h-5 w-5 text-green-500" />
                     </div>
                     <div>
-                      <h4 className="font-semibold mb-1">Maintenance Management</h4>
-                      <p className="text-gray-600">Reduce maintenance costs by 30%</p>
+                      <h4 className="font-semibold mb-1">Occupant & Payment Monitoring</h4>
+                      <p className="text-gray-600">Complete visibility into who has paid and payment status tracking</p>
                     </div>
                   </div>
                 </div>
@@ -591,11 +613,11 @@ export function HomePage() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link to="/register">
                 <Button size="lg" variant="default" className="bg-white text-green-600 hover:bg-gray-100 w-full sm:w-auto shadow-lg hover:shadow-xl transition-all duration-300">
-                  Start Your Free Trial
+                  Start Now
                 </Button>
               </Link>
               <Link to="/contact">
-                <Button size="lg" variant="outline" className="border-white text-white hover:bg-green-700 w-full sm:w-auto backdrop-blur-sm">
+                <Button size="lg" variant="outline" className="border-white text-green-600 hover:bg-green-700 w-full sm:w-auto backdrop-blur-sm">
                   Schedule a Demo
                 </Button>
               </Link>
